@@ -1,0 +1,34 @@
+.footer {
+    height:100px;
+    max-width: 950px;
+    margin-left: 250px;
+    background-color:  #dcb98f;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.active{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer h1 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 20px;
+    opacity: 60%;
+    text-decoration: none;
+    font-size: 22px;
+    color: #fbfbfb;
+}
+
+.footer img {
+    width: 75px;
+    height: 75px;
+    margin-top: 20px;
+    margin-right: 20px;
+}

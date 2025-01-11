@@ -1,0 +1,54 @@
+.form{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: scale(0);
+}
+
+
+.form.active{
+    transform: scale(1);
+}
+
+.form__window{
+    position: fixed;
+    width: 50%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #E4D1B9FF;
+    opacity: 95%;
+    padding: 20px 0;
+    font-size: 50px;
+    border-radius: 20px;
+}
+
+.close{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 50px;
+    right: 20px;
+}
+
+.form-group{
+    margin-bottom: 10px;
+
+}
+
+
+
+.create-account{
+    position: absolute;
+    bottom: 50px;
+    left: 42%;
+    width: 150px;
+    height: 50px;
+    background-color:  #1f511d;
+    border-radius: 10px;
+}

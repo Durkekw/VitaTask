@@ -1,0 +1,79 @@
+.messages{
+    width: 100%;
+    height: auto;
+}
+
+.topMes{
+    border-top-right-radius: 90px;
+    border-top-left-radius: 90px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    height:60px;
+    width:100%;
+    background-color: #3a3737;
+    padding-left: 10px;
+}
+
+.mes__esc{
+    margin-left: 10px;
+    margin-top: 10px;
+    width:40px;
+    margin-right: 20px;
+}
+
+.mes__img{
+    width:50px;
+}
+
+.mes__name{
+    font-size:30px;
+    margin-left: 10px;
+    color:rgba(255,255,255, 0.6);
+}
+
+.mesSpace{
+    background: linear-gradient(90deg, rgba(248,227,206) 95%, rgb(228, 209, 185) 100%);
+    min-height:626px;
+    min-width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.mesInput{
+    background-color: #3a3737;
+    color:rgba(255,255,255, 0.6);
+    border-bottom-right-radius: 90px;
+    border-bottom-left-radius: 90px;
+    position: sticky;
+    bottom: 11%;
+    height: 50px;
+
+}
+
+.mes__type{
+    background-color: #3a3737;
+    color:rgba(255,255,255, 0.6);
+    margin-left: 35px;
+    border-radius: 15px;
+    height: 50px;
+    width: 90%;
+    outline: 0;
+    border: none;
+    left: auto;
+    padding-left: 20px;
+    padding-bottom: 5px;
+    font-size: 20px;
+    float: left;
+    overflow: hidden;
+    word-break: break-all;
+    resize: none;
+    padding-top: 10px;
+}
+
+.mes__send{
+    width: 35px;
+    margin-right: 8px;
+    margin-top: 7px;
+}

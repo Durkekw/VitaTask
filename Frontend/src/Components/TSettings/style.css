@@ -1,0 +1,48 @@
+
+
+.fTitle{
+    margin-top: 30px;
+    color: #BA0021;
+    font-size: 40px;
+}
+
+.respTitle{
+    margin-top: 30px;
+    color: #1414b8;
+    font-size: 35px;
+}
+.respDesc{
+    color: #1414b8;
+}
+
+.descTitle{
+    margin-top: 30px;
+    font-size: 30px;
+}
+
+.descDesc{
+    border-radius: 20px;
+    margin-top: 30px;
+    height: 200px;
+    background-color: #dcb996;
+    box-shadow: 5px 10px 8px 0 rgba(34, 60, 80, 0.2);
+    margin-left: 25%;
+    width: 50%;
+    font-size: 25px;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.tBtn{
+    margin-top: 40px;
+    display: flex;
+    border-radius: 20px;
+    width: 200px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    background-color: #dcb996;
+    color:#464646;
+    margin-left: 41%;
+}

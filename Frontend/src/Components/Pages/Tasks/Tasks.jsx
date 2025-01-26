@@ -1,5 +1,5 @@
 import "./style.css"
-import Task from "../../Task/Task.jsx";
+import Task from "../../Elements/Task/Task.jsx";
 import {NavLink} from "react-router-dom";
 
 export default function Tasks(){
@@ -10,7 +10,7 @@ export default function Tasks(){
                     <Task index={0} title={"Lol"} surname={"gagaga"} name={"Ivan"} desc={"31231dfsa"}/>
                     <Task index={1} title={"Lol"} surname={"gagaga"} name={"Ivan"} desc={"31231dfsa"}/>
                 </ul>
-                <NavLink to={"/task-change"}><button className="changeTask btn">Добавить задачу</button></NavLink>
+                <NavLink to={"/task-change"}><button className="fixed-btn btn">Добавить задачу</button></NavLink>
             </div>
         </div>
     )

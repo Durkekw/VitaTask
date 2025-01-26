@@ -17,7 +17,7 @@ export default function CreateT() {
                     <textarea className="createDesc" id="mesText"
                               placeholder="Введите подробности этой задачи"/>
                     <button type="submit" className="btn tBtn">Сохранить</button>
-                    <NavLink to={"/tasks"} className="btn tBtn">Назад</NavLink>
+                    <NavLink to={"/tasks"} className="btn back__btn"></NavLink>
                 </form>
             </div>
         </div>

@@ -9,11 +9,6 @@
 
 }
 
-.active{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
 
 .footer h1 {
     display: flex;

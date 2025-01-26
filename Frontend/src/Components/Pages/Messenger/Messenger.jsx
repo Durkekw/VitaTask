@@ -1,6 +1,6 @@
 import "./style.css"
 import {chats} from "../../../helpers/chatList.jsx";
-import Chat from "../../Chat/Chat.jsx";
+import Chat from "../../Elements/Chat/Chat.jsx";
 
 export default function Messenger() {
     return (

@@ -1,6 +1,12 @@
-.task__item{
+
+.task__card{
+    height: 250px;
+    width: 200px;
     margin-left: 30px;
-    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.task__item{
     width: 200px;
     height: 250px;
     background: #fff;
@@ -11,6 +17,11 @@
             0 10px 1px -4px rgba(0,0,0,0.15),
             0 20px 0 -10px #eee,
             0 20px 1px -9px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease-in-out;
+}
+
+.task__item:first-child{
+    margin-top: 20px;
 }
 
 .task__item:hover{

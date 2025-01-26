@@ -34,15 +34,64 @@
     padding-top: 10px;
 }
 
-.tBtn{
-    margin-top: 40px;
-    display: flex;
-    border-radius: 20px;
-    width: 200px;
-    height: 50px;
-    justify-content: center;
-    align-items: center;
-    background-color: #dcb996;
-    color:#464646;
-    margin-left: 41%;
+.disc-title{
+    margin-top: 20px;
 }
+
+.discussion{
+    margin-top: 50px;
+    display: flex;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+
+.discussion button{
+    width: 35px;
+}
+
+.disSpace{
+    min-height: 500px;
+    width: 600px;
+    background-color: #DBD7D2;
+    border-radius: 50px;
+    /*padding-bottom: 40px;*/
+    padding:20px;
+}
+
+
+
+.disInput{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    position: sticky;
+    top: 100px;
+}
+
+.dis__type{
+
+    background-color: white;
+    color: #464646;
+    margin-left: 35px;
+    border-radius: 15px;
+    height: 150px;
+    width: 270px;
+    outline: 0;
+    left: auto;
+    padding-left: 20px;
+    padding-bottom: 5px;
+    font-size: 20px;
+    float: left;
+    overflow: hidden;
+    word-break: break-all;
+    resize: none;
+    padding-top: 10px;
+}
+
+.dis__send{
+    width: 35px;
+    margin-top: 7px;
+}
+

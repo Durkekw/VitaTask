@@ -4,7 +4,7 @@ import {chats} from "../../helpers/chatList.jsx";
 import ecs from "../../img/png-klev-club-bewz-p-krestik-chernii-png-28.png"
 import send from "../../img/free-icon-send-button-60525.png"
 import {useState} from "react";
-import Message from "../Message/Message.jsx";
+import Message from "../Elements/Message/Message.jsx";
 
 export default function Messages() {
 
@@ -15,7 +15,7 @@ export default function Messages() {
 
 
     const handleTextChange = (event) => {
-        setTextValue(event.target.value); // Обновляем состояние при вводе
+        setTextValue(event.target.value);
     };
 
     const handleButtonClick = () => {

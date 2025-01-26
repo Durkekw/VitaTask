@@ -1,0 +1,15 @@
+.tasks{
+    overflow: auto;
+
+}
+
+.task__list{
+    display:flex;
+    flex-wrap: wrap;
+    height: 735px;
+
+}
+
+/*.changeTask{*/
+
+/*}*/

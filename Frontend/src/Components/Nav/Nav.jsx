@@ -30,7 +30,8 @@ export default function Nav() {
                     <div className="nav_btns">
                         <div className="side__btn"><NavLink className={({isActive}) => isActive ? activeLink : normalLink} to="/">Главная</NavLink></div>
                         <div className="side__btn"><NavLink className={({isActive}) => isActive ? activeLink : normalLink} to="/messenger">Мессенджер</NavLink></div>
-                        <div className="side__btn"><NavLink className={({isActive}) => isActive ? activeLink : normalLink} to="/tasks">Задачи и проекты</NavLink></div>
+                        <div className="side__btn"><NavLink className={({isActive}) => isActive ? activeLink : normalLink} to="/tasks">Задачи</NavLink></div>
+                        <div className="side__btn"><NavLink className={({isActive}) => isActive ? activeLink : normalLink} to="/groups" >Ваша Команда </NavLink></div>
                         <div className="side__btn"><NavLink className={({isActive}) => isActive ? activeLink : normalLink} to="/settings" >Настройки</NavLink></div>
                                     {/*    <a href="#">Главная</a>*/}
                     {/*<a href="#">Мессенджер</a>*/}

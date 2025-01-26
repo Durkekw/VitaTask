@@ -49,6 +49,49 @@ p{
 
 .btn{
   box-shadow: 5px 10px 8px 0 rgba(34, 60, 80, 0.2);
+  background-color: #1f511d;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 20px;
+}
+
+.fixed-btn{
+  position: fixed;
+  bottom: 150px;
+  width: 225px;
+  height: 75px;
+  left: 48%;
+  font-size: 15px;
+}
+
+.back__btn{
+  position: absolute;
+  display: flex;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  background-color: #dcb996;
+  color:#464646;
+  top:90px;
+  left: 580px;
+  background-image: url("./img/backBtn.svg");
+  background-size: contain;
+}
+
+.tBtn{
+  margin-top: 40px;
+  display: flex;
+  border-radius: 20px;
+  width: 200px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  background-color: #dcb996;
+  color:#464646;
+  margin-left: 41%;
 }
 
 .form-control{

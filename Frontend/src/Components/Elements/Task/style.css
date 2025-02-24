@@ -40,4 +40,12 @@
     color: #464646;
 }
 
+.task-status{
+    margin-top: 18%;
+}
 
+
+.status-col{
+    min-height: 4px;
+    width: 80%;
+}

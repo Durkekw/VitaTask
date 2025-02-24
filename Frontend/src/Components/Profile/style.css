@@ -3,7 +3,7 @@
 }
 
 .profile-pic{
-    width: 200px;
+    width: 15%;
     margin-left: 10px;
     margin-top: 10px;
 }
@@ -11,9 +11,19 @@
 .profile-text{
     font-size: 30px;
     display: flex;
-    padding: 20px
+    padding: 20px;
+    align-items: center;
 }
 
 .profile-surname{
     margin-right: 20px;
+}
+
+.link-to-msg-btn{
+    width: 18vw;
+    height: 7vh;
+    margin-left: 50px;
+    background-color: #dcb996;
+    font-size: 25px;
+    display: flex;
 }

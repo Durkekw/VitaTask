@@ -4,6 +4,7 @@ import {chats} from "../../helpers/chatList.jsx";
 import send from "../../img/free-icon-send-button-60525.png";
 import {useState} from "react";
 import Message from "../Elements/Message/Message.jsx";
+import Report from "../Report/Report.jsx";
 
 export default function TSettings() {
     const {id} = useParams();
@@ -17,11 +18,16 @@ export default function TSettings() {
     // }else{
     const [textValue, setTextValue] = useState('');
     const [messages, setMessages] = useState([]);
+    const [reportActive, setReportActive] = useState(false);
 
 
         const handleTextChange = (event) => {
             setTextValue(event.target.value);
         };
+
+        const handlePopupClick = () =>{
+            setReportActive(true);
+        }
 
         const handleButtonClick = () => {
             if (textValue.trim()) {
@@ -46,27 +52,39 @@ export default function TSettings() {
                     <h2 className="respDesc">
                         {settings.surname} {settings.name}
                     </h2>
+                    <h2 className="create_date_title">Дата создания:</h2>
+                    <h3 className="create_date_content">{settings.created_at}</h3>
+                    <h2 className="deadline_title">Сроки:</h2>
+                    <h3 className="deadline_content">{settings.deadline}</h3>
                     <h1 className="descTitle">Описание задачи:</h1>
                     <p className="descDesc">{settings.desc}</p>
                     <NavLink to={"/tasks"} className="btn back__btn"></NavLink>
+                    <button onClick={handlePopupClick} className="btn task-rep-btn">Отправить отчет</button>
+                    <h1 className="descTitle">Статус</h1>
+                    <div className="statusbar tStatus">
+                        <p className="statusbar__info">В процессе</p>
+                        <div className="statusbar-yellow tset-statusbar-col"></div>
+                    </div>
                     <h1 className="disc-title">Обсуждение</h1>
                     <div className="discussion">
                         <div className="disSpace">
                             {messages.map((message, index) => (
-                                <Message key={index} message={message} />
+                                <Message key={index} message={message}/>
                             ))}
                         </div>
                         <div className="add-disc">
-                            <form method="post" className="disInput">
+                            <div method="post" className="disInput">
                             <textarea className="dis__type" value={textValue}
                                       onChange={handleTextChange} onKeyDown={handleKeyDown}
-                                       id="disText"
+                                      id="disText"
                                       placeholder="Введите ваше сообщение"/>
-                                <button onClick={handleButtonClick}><img className="dis__send" src={send} alt=""/></button>
-                            </form>
+                                <button onClick={handleButtonClick}><img className="dis__send" src={send} alt=""/>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <Report setActive={setReportActive} active={reportActive}/>
             </div>
         )
     // }

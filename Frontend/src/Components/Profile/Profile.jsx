@@ -1,5 +1,5 @@
 import "./style.css"
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {chats} from "../../helpers/chatList.jsx";
 
 export default function Profile() {
@@ -13,6 +13,7 @@ export default function Profile() {
                 <div className="profile-text">
                     <h2 className="profile-surname">{profile.surname}</h2>
                     <h2 className="profile-name">{profile.name}</h2>
+                    <NavLink to={`/im/${profile.id}`} className="btn link-to-msg-btn">Отправить сообщение</NavLink>
                 </div>
             </div>
         </div>

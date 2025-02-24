@@ -13,6 +13,9 @@ export default function CreateT() {
                     <h1 className="respTitle">Ответственный:</h1>
                     <input className="form-control" type="text" id="taskTitle"
                            placeholder="Введите ФИО ответственного человека"/>
+                    <h1 className="respTitle">Срок выполнения:</h1>
+                    <input className="form-control" type="text" id="taskTitle"
+                           placeholder="Введите срок выполнения"/>
                     <h1 className="descTitle">Описание задачи:</h1>
                     <textarea className="createDesc" id="mesText"
                               placeholder="Введите подробности этой задачи"/>

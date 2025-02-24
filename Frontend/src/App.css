@@ -29,7 +29,7 @@ img {
 .container{
   max-width: 950px;
   margin-left: 250px;
-  min-height: 736px;
+  min-height: 80vh;
   background: linear-gradient(90deg, rgba(248,227,206) 95%, rgb(228, 209, 185) 100%);
 }
 
@@ -66,7 +66,7 @@ p{
 }
 
 .back__btn{
-  position: absolute;
+  position: fixed;
   display: flex;
   border-radius: 20px;
   width: 50px;
@@ -75,14 +75,15 @@ p{
   align-items: center;
   background-color: #dcb996;
   color:#464646;
-  top:90px;
-  left: 580px;
+  top: 120px;
+  left: 590px;
   background-image: url("./img/backBtn.svg");
   background-size: contain;
 }
 
 .tBtn{
   margin-top: 40px;
+  margin-bottom: 10px;
   display: flex;
   border-radius: 20px;
   width: 200px;
@@ -105,4 +106,23 @@ p{
 
 .page__title{
   font-size:50px;
+}
+
+.statusbar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statusbar-yellow{
+  background-color: #FFC72C;
+}
+
+.statusbar__info{
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.active{
+  transform: scale(1) !important;
 }

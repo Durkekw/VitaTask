@@ -16,7 +16,7 @@
 }
 
 .descTitle{
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 30px;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .discussion{
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     padding-left: 30px;
     padding-bottom: 10px;
@@ -95,3 +95,29 @@
     margin-top: 7px;
 }
 
+.tset-statusbar-col{
+    min-height: 10px;
+    width:50%;
+}
+
+.tStatus{
+    margin-top: 10px;
+}
+
+.task-rep-btn{
+    background-color: #dcb996;
+    height: 80px;
+    width: 200px;
+    position: fixed;
+    right: 22%;
+    top: 120px;
+    font-size: 25px;
+}
+
+.create_date_title{
+    margin-top: 10px;
+}
+
+.deadline_title{
+    margin-top: 10px;
+}

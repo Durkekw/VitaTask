@@ -10,9 +10,7 @@
 }
 
 
-.form.active{
-    transform: scale(1);
-}
+
 
 .form__window{
     position: fixed;

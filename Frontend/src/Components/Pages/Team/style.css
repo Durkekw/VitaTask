@@ -1,0 +1,10 @@
+.team_btns{
+    margin: 1vh 0;
+}
+
+.team-btn{
+    margin: 0 20px;
+    width: 10vw;
+    height: 5vh;
+    background-color: #dcb996;
+}

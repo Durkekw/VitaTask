@@ -10,7 +10,7 @@ export default function Tasks(){
                     <Task index={0} title={"Lol"} surname={"gagaga"} name={"Ivan"} deadline={"22.02.25"}/>
                     <Task index={1} title={"Lol"} surname={"gagaga"} name={"Ivan"} deadline={"22.02.25"}/>
                 </ul>
-                <NavLink to={"/task-change"}><button className="fixed-btn btn">Добавить задачу</button></NavLink>
+                <NavLink to={"/task-change"}><button className="fixed-btn btn btn-primary">Добавить задачу</button></NavLink>
             </div>
         </div>
     )

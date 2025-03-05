@@ -4,36 +4,34 @@ import (
 	"Backend/models"
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // Импортируем драйвер PostgreSQL
 	"log"
 )
 
-//const (
-//	host     = "localhost"
-//	port     = 5432
-//	user     = "postgres"
-//	password = "1"
-//	dbname   = "ViTask"
-//)
-
+// ConnectDB создает и возвращает соединение с базой данных.
+// Если подключение не удалось, программа завершится с ошибкой.
 func ConnectDB() *sql.DB {
-	//psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-	//	host, port, user, password, dbname)
-	//
-	//db, err := sql.Open("postgres", psqlInfo)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = db.Ping()
-	//if err != nil {
-	//	panic(err)
-	//}
-	db, err := sql.Open("postgres", "user=postgres password=1 host=localhost dbname=ViTask sslmode=disable")
+	// Параметры подключения к базе данных
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		"localhost", // Хост (например, localhost)
+		5432,        // Порт (по умолчанию 5432)
+		"postgres",  // Имя пользователя (например, postgres)
+		"1",         // Пароль пользователя
+		"postgres",  // Имя базы данных
+	)
+
+	// Подключение к базе данных
+	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatalf("Error: Unable to connect to database: %v", err)
 	}
-	//defer db.Close()
+
+	// Проверка соединения с базой данных
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("Error: Unable to ping database: %v", err)
+	}
+
 	fmt.Println("Successfully connected to the database")
 	return db
 }

@@ -43,15 +43,21 @@ func CreateUser(db *sql.DB, user models.User) error {
 }
 
 func CreateTeam(db *sql.DB, team models.Team) error {
-	_, err := db.Exec(`INSERT INTO "ViTask"."team" (team_name) VALUES ($1)`,
+	_, err := db.Exec(`INSERT INTO "ViTask"."team" (team_name) VALUES ($1) RETURNING team_id`,
 		team.TeamName)
+	return err
+}
+
+func AddUserToTeam(db *sql.DB, userID, teamID int) error {
+	_, err := db.Exec(`INSERT INTO "ViTask"."party" (user_id, team_id) VALUES ($1, $2)`,
+		userID, teamID)
 	return err
 }
 
 func GetUserByEmail(db *sql.DB, email string) (*models.User, error) {
 	var user models.User
-	row := db.QueryRow(`SELECT email, password FROM "ViTask"."user" WHERE email = $1`, email)
-	err := row.Scan(&user.Email, &user.Password)
+	row := db.QueryRow(`SELECT user_id, email, password, name, surname FROM "ViTask"."user" WHERE email = $1`, email)
+	err := row.Scan(&user.UserID, &user.Email, &user.Password, &user.Name, &user.Surname)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil // Пользователь не найден
@@ -59,4 +65,23 @@ func GetUserByEmail(db *sql.DB, email string) (*models.User, error) {
 		return nil, err // Ошибка базы данных
 	}
 	return &user, nil
+}
+
+func GetTeams(db *sql.DB) ([]models.Team, error) {
+	rows, err := db.Query(`SELECT team_id, team_name FROM "ViTask"."team"`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var teams []models.Team
+	for rows.Next() {
+		var team models.Team
+		err := rows.Scan(&team.TeamID, &team.TeamName)
+		if err != nil {
+			return nil, err
+		}
+		teams = append(teams, team)
+	}
+	return teams, nil
 }

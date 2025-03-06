@@ -18,6 +18,8 @@ func main() {
 
 	r.HandleFunc("/register", handlers.RegisterHandler(db)).Methods("POST")
 	r.HandleFunc("/login", handlers.LoginHandler(db)).Methods("POST")
+	r.HandleFunc("/create-team", handlers.CreateTeamHandler(db)).Methods("POST")
+	r.HandleFunc("/addUserToTeam", handlers.AddUserToTeamHandler(db)).Methods("POST")
 
 	// Настройка CORS
 	c := cors.New(cors.Options{

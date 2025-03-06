@@ -1,16 +1,18 @@
 import "./style.css";
 import logo from "../../img/logo/Group.svg";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import LoginForm from "../LoginForm/Login.jsx";
 import Registration from "../LoginForm/Registration.jsx";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice.js";
+import { createTeam } from "../../../redux/slices/teamSlice.js";
 
 export default function Nav() {
     const [LoginActive, setLoginActive] = useState(false);
     const [RegActive, setRegActive] = useState(false);
-    const { isAuthenticated } = useSelector((state) => state.auth);
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const { team } = useSelector((state) => state.team);
     const dispatch = useDispatch();
     const activeLink = "nav-list__link nav-list__link--active";
     const normalLink = "nav-list__link";
@@ -18,6 +20,7 @@ export default function Nav() {
     const handleLogout = () => {
         dispatch(logout());
     };
+
 
     return (
         <nav className="nav">
@@ -45,55 +48,61 @@ export default function Nav() {
                     ) : (
                         <li className="top-nav__item">
                             <button className="nav__btn" >
-                               <a onClick={handleLogout}>Выйти</a>
+                                <a onClick={handleLogout}>Выйти</a>
                             </button>
                         </li>
                     )}
                 </ul>
             </div>
             <div className="side_nav">
-                {isAuthenticated && <div className="nav_btns">
-                    <div className="side__btn">
-                        <NavLink
-                            className={({isActive}) => (isActive ? activeLink : normalLink)}
-                            to="/"
-                        >
-                            Главная
-                        </NavLink>
+                {isAuthenticated && (
+                    <div className="nav_btns">
+                        <div className="side__btn">
+                            <NavLink
+                                className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                to="/"
+                            >
+                                Главная
+                            </NavLink>
+                        </div>
+                        <div className="side__btn">
+                            <NavLink
+                                className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                to="/messenger"
+                            >
+                                Мессенджер
+                            </NavLink>
+                        </div>
+                        <div className="side__btn">
+                            <NavLink
+                                className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                to="/tasks"
+                            >
+                                Задачи
+                            </NavLink>
+                        </div>
+                        {team ? (
+                            <div className="side__btn">
+                                <NavLink
+                                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                    to="/groups">Ваша команда</NavLink>
+                            </div>
+                        ) : (
+                            <div className="side__btn">
+                                <NavLink className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                to="/teamcr"> Создать команду</NavLink>
+                            </div>
+                        )}
+                        <div className="side__btn">
+                            <NavLink
+                                className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                to="/settings"
+                            >
+                                Настройки
+                            </NavLink>
+                        </div>
                     </div>
-                    <div className="side__btn">
-                        <NavLink
-                            className={({isActive}) => (isActive ? activeLink : normalLink)}
-                            to="/messenger"
-                        >
-                            Мессенджер
-                        </NavLink>
-                    </div>
-                    <div className="side__btn">
-                        <NavLink
-                            className={({isActive}) => (isActive ? activeLink : normalLink)}
-                            to="/tasks"
-                        >
-                            Задачи
-                        </NavLink>
-                    </div>
-                    <div className="side__btn">
-                        <NavLink
-                            className={({isActive}) => (isActive ? activeLink : normalLink)}
-                            to="/groups"
-                        >
-                            Ваша Команда
-                        </NavLink>
-                    </div>
-                    <div className="side__btn">
-                        <NavLink
-                            className={({isActive}) => (isActive ? activeLink : normalLink)}
-                            to="/settings"
-                        >
-                            Настройки
-                        </NavLink>
-                    </div>
-                </div>}
+                )}
             </div>
             <LoginForm active={LoginActive} setActive={setLoginActive} />
             <Registration active={RegActive} setActive={setRegActive} />

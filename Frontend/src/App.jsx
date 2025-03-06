@@ -15,6 +15,7 @@ import Team from "./Components/Pages/Team/Team.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
 import {loadUser} from "../redux/slices/authSlice.js";
 import {useDispatch} from "react-redux";
+import TeamCreate from "./Components/Pages/TeamCreate/TeamCreate.jsx";
 
 
 function App() {
@@ -32,13 +33,14 @@ function App() {
               <Routes>
                   <Route path="/" element={<Main/>}/>
                   <Route path="/messenger" element={<Messenger/>}/>
-                  <Route path="/tasks" element={<Tasks/>}/>
+                  <Route path="/tasks:id" element={<Tasks/>}/>
                   <Route path="/settings" element={<Settings/>} />
                   <Route path="/im/:id" element={<Messages/>}/>
                   <Route path="/task-settings/:id" element={<TSettings/>}/>
                   <Route path="/task-change" element={<CreateT/>}/>
                   <Route path="/groups" element={<Team/>}/>
                   <Route path="/profile/:id" element={<Profile/>}/>
+                  <Route path="/teamcr" element={<TeamCreate/>}/>
               </Routes>
               <Footer/>
           </Router>

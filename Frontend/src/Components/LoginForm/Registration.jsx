@@ -17,7 +17,11 @@ export default function Registration({ active, setActive }) {
         dispatch(registerUser({ email, password, name, surname }))
             .unwrap()
             .then(() => {
-                setActive(false); // Закрыть модальное окно после успешной регистрации
+                setActive(false);
+                setEmail("");
+                setPassword("");
+                setName("");
+                setSurname("");
             })
             .catch((err) => {
                 console.error("Registration failed:", err);

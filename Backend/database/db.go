@@ -16,7 +16,7 @@ func ConnectDB() *sql.DB {
 		"localhost", // Хост (например, localhost)
 		5432,        // Порт (по умолчанию 5432)
 		"postgres",  // Имя пользователя (например, postgres)
-		"1",         // Пароль пользователя
+		"110",       // Пароль пользователя
 		"postgres",  // Имя базы данных
 	)
 
@@ -42,9 +42,21 @@ func CreateUser(db *sql.DB, user models.User) error {
 	return err
 }
 
-func GetUserByEmail(db *sql.DB, email string) (models.User, error) {
+func CreateTeam(db *sql.DB, team models.Team) error {
+	_, err := db.Exec(`INSERT INTO "ViTask"."team" (team_name) VALUES ($1)`,
+		team.TeamName)
+	return err
+}
+
+func GetUserByEmail(db *sql.DB, email string) (*models.User, error) {
 	var user models.User
 	row := db.QueryRow(`SELECT email, password FROM "ViTask"."user" WHERE email = $1`, email)
 	err := row.Scan(&user.Email, &user.Password)
-	return user, err
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // Пользователь не найден
+		}
+		return nil, err // Ошибка базы данных
+	}
+	return &user, nil
 }

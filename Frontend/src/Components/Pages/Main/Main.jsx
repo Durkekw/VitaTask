@@ -11,9 +11,11 @@ import func5 from "../../../img/logo/Main/pngwing.com-_17_.svg"
 import start from "../../../img/2148308631.jpg"
 import Registration from "../../LoginForm/Registration.jsx";
 import {useState} from "react";
+import {useSelector} from "react-redux";
 
 export default function Main(){
     const [RegActive, setRegActive] = useState(false);
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
 
     return (
@@ -57,12 +59,13 @@ export default function Main(){
                         </li>
 
                     </ul>
-                    <button onClick={() => setRegActive(true)} className="btn func__btn"><a>Начать!</a></button>
+                    {!isAuthenticated && <button onClick={() => setRegActive(true)} className="btn func__btn"><a>Начать!</a></button>}
                 </div>
                 <h1 className="main__join">Начните работать с нами сегодня!</h1>
                 <img className="start__img" src={start}/>
                 <p className="join__text">Присоединяйтесь к VitaTask и сделайте управление задачами более эффективным и организованным. <br/>Зарегистрируйтесь сейчас и откройте для себя новый уровень командной работы!</p>
-                <button className="jb"><a className="btn join__btn" onClick={() => setRegActive(true)}>Зарегистрироваться</a></button>
+                {!isAuthenticated && <button className="jb"><a className="btn join__btn"
+                                           onClick={() => setRegActive(true)}>Зарегистрироваться</a></button>}
             </div>
             <Registration active={RegActive} setActive={setRegActive} />
         </section>

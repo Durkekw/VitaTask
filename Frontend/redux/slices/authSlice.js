@@ -38,8 +38,8 @@ export const registerUser = createAsyncThunk(
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        user: null,
-        isAuthenticated: false,
+        user: JSON.parse(localStorage.getItem("user")) || null, // Загружаем пользователя из localStorage
+        isAuthenticated: !!JSON.parse(localStorage.getItem("user")), // Проверяем, есть ли пользователь в localStorage
         loading: false,
         error: null,
     },
@@ -47,6 +47,14 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
+            localStorage.removeItem("user"); // Удаляем пользователя из localStorage при выходе
+        },
+        loadUser: (state) => {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (user) {
+                state.user = user;
+                state.isAuthenticated = true;
+            }
         },
     },
     extraReducers: (builder) => {
@@ -59,6 +67,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.isAuthenticated = true;
                 state.user = action.payload;
+                localStorage.setItem("user", JSON.stringify(action.payload)); // Сохраняем пользователя в localStorage
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
@@ -72,6 +81,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.isAuthenticated = true;
                 state.user = action.payload;
+                localStorage.setItem("user", JSON.stringify(action.payload)); // Сохраняем пользователя в localStorage
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
@@ -80,5 +90,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, loadUser } = authSlice.actions;
 export default authSlice.reducer;

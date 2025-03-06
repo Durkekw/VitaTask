@@ -15,7 +15,9 @@ export default function LoginForm({ active, setActive }) {
         dispatch(loginUser({ email, password }))
             .unwrap()
             .then(() => {
-                setActive(false); // Закрыть модальное окно после успешного входа
+                setActive(false);
+                setEmail("");
+                setPassword("");
             })
             .catch((err) => {
                 console.error("Login failed:", err);

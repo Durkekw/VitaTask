@@ -13,11 +13,16 @@ import TSettings from "./Components/TSettings/TSettings.jsx";
 import CreateT from "./Components/TaskCreate/CreateT.jsx";
 import Team from "./Components/Pages/Team/Team.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
-
+import {loadUser} from "../redux/slices/authSlice.js";
+import {useDispatch} from "react-redux";
 
 
 function App() {
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(loadUser());
+    }, [dispatch]);
 
   return (
       <>

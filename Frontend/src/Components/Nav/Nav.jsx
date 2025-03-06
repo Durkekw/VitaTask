@@ -44,18 +44,18 @@ export default function Nav() {
                         </li>
                     ) : (
                         <li className="top-nav__item">
-                            <button className="nav__btn" onClick={handleLogout}>
-                                Выйти
+                            <button className="nav__btn" >
+                               <a onClick={handleLogout}>Выйти</a>
                             </button>
                         </li>
                     )}
                 </ul>
             </div>
             <div className="side_nav">
-                <div className="nav_btns">
+                {isAuthenticated && <div className="nav_btns">
                     <div className="side__btn">
                         <NavLink
-                            className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                            className={({isActive}) => (isActive ? activeLink : normalLink)}
                             to="/"
                         >
                             Главная
@@ -63,7 +63,7 @@ export default function Nav() {
                     </div>
                     <div className="side__btn">
                         <NavLink
-                            className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                            className={({isActive}) => (isActive ? activeLink : normalLink)}
                             to="/messenger"
                         >
                             Мессенджер
@@ -71,7 +71,7 @@ export default function Nav() {
                     </div>
                     <div className="side__btn">
                         <NavLink
-                            className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                            className={({isActive}) => (isActive ? activeLink : normalLink)}
                             to="/tasks"
                         >
                             Задачи
@@ -79,7 +79,7 @@ export default function Nav() {
                     </div>
                     <div className="side__btn">
                         <NavLink
-                            className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                            className={({isActive}) => (isActive ? activeLink : normalLink)}
                             to="/groups"
                         >
                             Ваша Команда
@@ -87,13 +87,13 @@ export default function Nav() {
                     </div>
                     <div className="side__btn">
                         <NavLink
-                            className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                            className={({isActive}) => (isActive ? activeLink : normalLink)}
                             to="/settings"
                         >
                             Настройки
                         </NavLink>
                     </div>
-                </div>
+                </div>}
             </div>
             <LoginForm active={LoginActive} setActive={setLoginActive} />
             <Registration active={RegActive} setActive={setRegActive} />

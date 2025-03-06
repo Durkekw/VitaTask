@@ -54,7 +54,8 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		// Возвращаем данные пользователя вместо сообщения
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{"message": "Login successful"})
+		json.NewEncoder(w).Encode(storedUser) // Возвращаем данные пользователя
 	}
 }

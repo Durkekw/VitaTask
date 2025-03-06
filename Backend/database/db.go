@@ -16,7 +16,7 @@ func ConnectDB() *sql.DB {
 		"localhost", // Хост (например, localhost)
 		5432,        // Порт (по умолчанию 5432)
 		"postgres",  // Имя пользователя (например, postgres)
-		"110",       // Пароль пользователя
+		"1",         // Пароль пользователя
 		"postgres",  // Имя базы данных
 	)
 
@@ -37,14 +37,14 @@ func ConnectDB() *sql.DB {
 }
 
 func CreateUser(db *sql.DB, user models.User) error {
-	_, err := db.Exec(`INSERT INTO "ViTask"."user" (email, password, name, surname) VALUES ($1, $2, $3, $4)`,
-		user.Email, user.Password, user.Name, user.Surname)
+	_, err := db.Exec(`INSERT INTO "ViTask"."user" (email, password, name, surname, team_id) VALUES ($1, $2, $3, $4, $5)`,
+		user.Email, user.Password, user.Name, user.Surname, user.TeamID)
 	return err
 }
 
 func CreateTeam(db *sql.DB, team models.Team) error {
-	_, err := db.Exec(`INSERT INTO "ViTask"."team" (team_name) VALUES ($1) RETURNING team_id`,
-		team.TeamName)
+	_, err := db.Exec(`INSERT INTO "ViTask"."team" (team_name, role_id) VALUES ($1, $2) RETURNING team_id`,
+		team.TeamName, team.RoleID)
 	return err
 }
 
@@ -56,8 +56,8 @@ func AddUserToTeam(db *sql.DB, userID, teamID int) error {
 
 func GetUserByEmail(db *sql.DB, email string) (*models.User, error) {
 	var user models.User
-	row := db.QueryRow(`SELECT user_id, email, password, name, surname FROM "ViTask"."user" WHERE email = $1`, email)
-	err := row.Scan(&user.UserID, &user.Email, &user.Password, &user.Name, &user.Surname)
+	row := db.QueryRow(`SELECT user_id, email, password, name, surname, team_id FROM "ViTask"."user" WHERE email = $1`, email)
+	err := row.Scan(&user.UserID, &user.Email, &user.Password, &user.Name, &user.Surname, &user.TeamID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil // Пользователь не найден

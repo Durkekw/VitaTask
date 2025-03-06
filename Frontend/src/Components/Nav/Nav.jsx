@@ -12,10 +12,15 @@ export default function Nav() {
     const [LoginActive, setLoginActive] = useState(false);
     const [RegActive, setRegActive] = useState(false);
     const { isAuthenticated, user } = useSelector((state) => state.auth);
-    const { team } = useSelector((state) => state.team);
     const dispatch = useDispatch();
     const activeLink = "nav-list__link nav-list__link--active";
     const normalLink = "nav-list__link";
+    const { team, teamId } = useSelector((state) => state.team);
+    const isUserInTeam = () =>{
+        console.log(user);
+        console.log(user.team_id);
+        console.log(teamId);
+    }
 
     const handleLogout = () => {
         dispatch(logout());
@@ -81,16 +86,23 @@ export default function Nav() {
                                 Задачи
                             </NavLink>
                         </div>
-                        {team ? (
+                        {user.team_id === teamId ? ( // Если пользователь принадлежит к команде
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
-                                    to="/groups">Ваша команда</NavLink>
+                                    to={`/team/${teamId}`} // Ссылка на страницу команды
+                                >
+                                    Ваша команда
+                                </NavLink>
                             </div>
-                        ) : (
+                        ) : ( // Если пользователь не принадлежит к команде
                             <div className="side__btn">
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : normalLink)}
-                                to="/teamcr"> Создать команду</NavLink>
+                                <NavLink
+                                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                    to="/teamcr"
+                                >
+                                    Создать команду
+                                </NavLink>
                             </div>
                         )}
                         <div className="side__btn">

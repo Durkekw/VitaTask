@@ -33,10 +33,30 @@ export default function Registration({ active, setActive }) {
             <section className="form__window" onClick={(e) => e.stopPropagation()}>
                 <form onSubmit={handleSubmit}>
                     <button className="close" onClick={() => setActive(false)}>
-                        <img className="close__img" src={close} />
+                        <img className="close__img" src={close}/>
                     </button>
                     <h1>Регистрация</h1>
                     {error && <p className="error">{error}</p>}
+                    <div className="form-group">
+                        <input
+                            className="form-control item"
+                            type="text"
+                            value={surname}
+                            onChange={(e) => setSurname(e.target.value)}
+                            placeholder="Фамилия"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            className="form-control item"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Имя"
+                            required
+                        />
+                    </div>
                     <div className="form-group">
                         <input
                             className="form-control item"
@@ -54,26 +74,6 @@ export default function Registration({ active, setActive }) {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Пароль"
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            className="form-control item"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Имя"
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            className="form-control item"
-                            type="text"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                            placeholder="Фамилия"
                             required
                         />
                     </div>

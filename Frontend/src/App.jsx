@@ -38,7 +38,7 @@ function App() {
                   <Route path="/im/:id" element={<Messages/>}/>
                   <Route path="/task-settings/:id" element={<TSettings/>}/>
                   <Route path="/task-change" element={<CreateT/>}/>
-                  <Route path="/groups" element={<Team/>}/>
+                  <Route path="/team/:teamId" element={<Team/>}/>
                   <Route path="/profile/:id" element={<Profile/>}/>
                   <Route path="/teamcr" element={<TeamCreate/>}/>
               </Routes>

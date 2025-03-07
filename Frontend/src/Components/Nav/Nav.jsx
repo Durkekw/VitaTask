@@ -3,7 +3,7 @@ import logo from "../../img/logo/Group.svg";
 import {useEffect, useState} from "react";
 import LoginForm from "../LoginForm/Login.jsx";
 import Registration from "../LoginForm/Registration.jsx";
-import { NavLink } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice.js";
 import { createTeam } from "../../../redux/slices/teamSlice.js";
@@ -13,16 +13,16 @@ export default function Nav() {
     const [RegActive, setRegActive] = useState(false);
     const { isAuthenticated, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const activeLink = "nav-list__link nav-list__link--active";
     const normalLink = "nav-list__link";
     const { team, teamId } = useSelector((state) => state.team);
     const isUserInTeam = () =>{
         console.log(user);
-        console.log(user.team_id);
-        console.log(teamId);
     }
 
     const handleLogout = () => {
+        navigate('/');
         dispatch(logout());
     };
 
@@ -86,7 +86,7 @@ export default function Nav() {
                                 Задачи
                             </NavLink>
                         </div>
-                        {user.team_id === teamId ? ( // Если пользователь принадлежит к команде
+                        {teamId !== undefined  ? ( // Если пользователь принадлежит к команде
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
@@ -105,6 +105,7 @@ export default function Nav() {
                                 </NavLink>
                             </div>
                         )}
+                        <button onClick={isUserInTeam}>проверка</button>
                         <div className="side__btn">
                             <NavLink
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}

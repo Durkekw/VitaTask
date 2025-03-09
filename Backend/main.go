@@ -16,14 +16,17 @@ func main() {
 
 	r := mux.NewRouter()
 
+	// Регистрация маршрутов
 	r.HandleFunc("/register", handlers.RegisterHandler(db)).Methods("POST")
 	r.HandleFunc("/login", handlers.LoginHandler(db)).Methods("POST")
 	r.HandleFunc("/create-team", handlers.CreateTeamHandler(db)).Methods("POST")
-	r.HandleFunc("/addUserToTeam", handlers.AddUserToTeamHandler(db)).Methods("POST")
+	r.HandleFunc("/add-user-to-team", handlers.AddUserToTeamHandler(db)).Methods("POST")
+	r.HandleFunc("/team/{teamId}/members", handlers.GetTeamMembersHandler(db)).Methods("GET")
+	r.HandleFunc("/unteamed-users", handlers.GetUnteamedUsersHandler(db)).Methods("GET")
 
 	// Настройка CORS
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173"}, // Разрешенный origin (ваш React-сервер)
+		AllowedOrigins:   []string{"http://localhost:5174"}, // Разрешенный origin (ваш React-сервер)
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,

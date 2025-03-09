@@ -19,6 +19,8 @@ export default function Nav() {
     const { team, teamId } = useSelector((state) => state.team);
     const isUserInTeam = () =>{
         console.log(user);
+        console.log(user.team_id);
+        console.log(teamId);
     }
 
     const handleLogout = () => {
@@ -86,7 +88,7 @@ export default function Nav() {
                                 Задачи
                             </NavLink>
                         </div>
-                        {teamId !== undefined  ? ( // Если пользователь принадлежит к команде
+                        {user.team_id.Valid !== false ? ( // Если пользователь принадлежит к команде
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}

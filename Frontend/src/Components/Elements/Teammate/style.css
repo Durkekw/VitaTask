@@ -10,6 +10,15 @@
     display: flex;
 }
 
+.btn_delete_member{
+    width: 40px;
+    margin-right: 20px;
+}
+
+.btn_delete_member-invisible{
+    transform: scale(0);
+}
+
 .delete-btn{
     background-color: #BA0021;
     margin-right: 5%;

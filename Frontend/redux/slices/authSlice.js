@@ -74,7 +74,10 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.isAuthenticated = true;
                 state.user = action.payload; // Сохраняем данные пользователя
-                localStorage.setItem("user", JSON.stringify(action.payload)); // Сохраняем в localStorage
+
+                // Очищаем старые данные перед сохранением новых
+                localStorage.removeItem("user");
+                localStorage.setItem("user", JSON.stringify(action.payload));
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
@@ -88,7 +91,10 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.isAuthenticated = true;
                 state.user = action.payload; // Сохраняем данные пользователя
-                localStorage.setItem("user", JSON.stringify(action.payload)); // Сохраняем в localStorage
+
+                // Очищаем старые данные перед сохранением новых
+                localStorage.removeItem("user");
+                localStorage.setItem("user", JSON.stringify(action.payload));
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;

@@ -9,4 +9,5 @@ type User struct {
 	Name     string        `json:"name"`
 	Surname  string        `json:"surname"`
 	TeamID   sql.NullInt64 `json:"team_id"`
+	RoleID   sql.NullInt64 `json:"role_id"`
 }

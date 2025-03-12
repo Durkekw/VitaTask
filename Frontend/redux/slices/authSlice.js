@@ -73,11 +73,16 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = true;
-                state.user = action.payload; // Сохраняем данные пользователя
 
-                // Очищаем старые данные перед сохранением новых
-                localStorage.removeItem("user");
-                localStorage.setItem("user", JSON.stringify(action.payload));
+                // Извлекаем значения из sql.NullInt64
+                const user = {
+                    ...action.payload,
+                    team_id: action.payload.team_id.Valid ? action.payload.team_id.Int64 : null, // Извлекаем значение Int64, если Valid = true
+                    role_id: action.payload.role_id.Valid ? action.payload.role_id.Int64 : null, // Извлекаем значение Int64, если Valid = true
+                };
+
+                state.user = user; // Сохраняем данные пользователя
+                localStorage.setItem("user", JSON.stringify(user));
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;

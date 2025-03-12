@@ -8,7 +8,7 @@ import AddMember from "../../AddMember/AddMember.jsx";
 
 export default function Team() {
     const [showBtn, setShowBtn] = useState(false);
-    const [addingActive, setAddingActive] = useState(false)
+    const [addingActive, setAddingActive] = useState(false);
     const { user } = useSelector((state) => state.auth);
     const { teamId, members, loading, error } = useSelector((state) => state.team);
     const { teamId: paramTeamId } = useParams();
@@ -18,17 +18,28 @@ export default function Team() {
         setShowBtn(!showBtn);
     };
 
-    const handleActive = () =>{
-        setAddingActive(true)
-    }
+    const handleActive = () => {
+        setAddingActive(true);
+    };
 
     useEffect(() => {
-        if (paramTeamId) {
-            dispatch(fetchTeamMembers(paramTeamId));
+        console.log("User:", user);
+        console.log("Team ID:", teamId);
+        console.log("Members:", members);
+
+        if (user && user.team_id) {
+            dispatch(fetchTeamMembers(user.team_id))
+                .unwrap()
+                .then(() => {
+                    console.log("Участники команды успешно загружены");
+                })
+                .catch((error) => {
+                    console.error("Ошибка при загрузке участников команды:", error);
+                });
         } else {
-            console.error("teamId is missing in the URL");
+            console.error("teamId is missing or user is not authenticated");
         }
-    }, [paramTeamId, dispatch]);
+    }, [user, dispatch]);
 
     if (loading) {
         return <div>Загрузка...</div>;
@@ -36,6 +47,14 @@ export default function Team() {
 
     if (error) {
         return <div>Ошибка: {error}</div>;
+    }
+
+    if (!members) {
+        return <div>Загрузка участников...</div>;
+    }
+
+    if (members.length === 0) {
+        return <div>Нет участников в команде</div>;
     }
 
     return (
@@ -46,22 +65,18 @@ export default function Team() {
                     Удалить
                 </button>
             </div>
-            {members.length > 0 ? (
-                members.map((member, index) => (
-                    <Teammate
-                        key={member.user_id} // Используем уникальный user_id как ключ
-                        surname={member.surname}
-                        name={member.name}
-                        email={member.email}
-                        role={member.role_id.Int64} // Передаем role_id
-                        roleId={member.role_id} // Явно передаем roleId
-                        img={"https://via.placeholder.com/50"} // Пример аватара
-                        showBtn={showBtn}
-                    />
-                ))
-            ) : (
-                <div>Нет участников в команде</div>
-            )}
+            {members.map((member, index) => (
+                <Teammate
+                    key={member.user_id}
+                    surname={member.surname}
+                    name={member.name}
+                    email={member.email}
+                    role={member.role_id.Int64}
+                    roleId={member.role_id}
+                    img={"https://via.placeholder.com/50"}
+                    showBtn={showBtn}
+                />
+            ))}
             <AddMember active={addingActive} setActive={setAddingActive} />
         </div>
     );

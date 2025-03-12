@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { updateUserTeamId } from "../slices/authSlice.js";
+import {loginUser, updateUserTeamId} from "../slices/authSlice.js";
 
 // Асинхронные действия (thunks)
 export const createTeam = createAsyncThunk(
@@ -78,13 +78,13 @@ export const fetchTeamMembers = createAsyncThunk(
 const teamSlice = createSlice({
     name: "team",
     initialState: {
-        team: null, // Текущая команда
-        teamId: JSON.parse(localStorage.getItem("teamId")) || null, // Загружаем teamId из localStorage
-        members: [], // Участники команды
+        team: null,
+        teamId: JSON.parse(localStorage.getItem("teamId")) || null,
+        members: [],
         unteamedUsers: [],
         loading: false,
         error: null,
-        isDataLoaded: false, // Флаг для загрузки
+        isDataLoaded: false,
     },
     reducers: {
         setTeam: (state, action) => {
@@ -98,20 +98,31 @@ const teamSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(loginUser.fulfilled, (state, action) => {
+                // Обновляем teamId после успешного входа
+                if (action.payload.team_id.Valid) {
+                    state.teamId = action.payload.team_id.Int64;
+                    localStorage.setItem("teamId", JSON.stringify(action.payload.team_id.Int64));
+                }
+            })
             .addCase(createTeam.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(createTeam.fulfilled, (state, action) => {
                 state.loading = false;
-                state.teamId = action.payload.teamId; // Сохраняем teamId
-                localStorage.setItem("teamId", JSON.stringify(action.payload.teamId)); // Сохраняем teamId в localStorage
+
+                // Обновляем teamId в состоянии Redux
+                state.teamId = action.payload.teamId;
+
+                // Сохраняем teamId в localStorage
+                localStorage.setItem("teamId", JSON.stringify(action.payload.teamId));
 
                 // Обновляем данные пользователя в localStorage
                 const user = JSON.parse(localStorage.getItem("user"));
                 if (user) {
                     user.team_id = action.payload.teamId; // Обновляем team_id у пользователя
-                    localStorage.setItem("user", JSON.stringify(user)); // Сохраняем обновленные данные пользователя
+                    localStorage.setItem("user", JSON.stringify(user));
                 }
             })
             .addCase(createTeam.rejected, (state, action) => {
@@ -133,14 +144,17 @@ const teamSlice = createSlice({
             .addCase(fetchTeamMembers.pending, (state) => {
                 state.loading = true;
                 state.error = null;
+                console.log("Fetching team members...");
             })
             .addCase(fetchTeamMembers.fulfilled, (state, action) => {
                 state.loading = false;
                 state.members = action.payload; // Сохраняем список участников
+                console.log("Team members fetched:", action.payload);
             })
             .addCase(fetchTeamMembers.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
+                console.error("Error fetching team members:", action.payload);
             })
             .addCase(fetchUnteamedUsers.pending, (state) => {
                 state.loading = true;

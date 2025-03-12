@@ -59,7 +59,6 @@ func GetUserByEmail(db *sql.DB, email string) (*models.User, error) {
 	row := db.QueryRow(`SELECT user_id, email, password, name, surname, team_id, role_id FROM "ViTask"."user" WHERE email = $1`, email)
 	err := row.Scan(&user.UserID, &user.Email, &user.Password, &user.Name, &user.Surname, &user.TeamID, &user.RoleID)
 	if err != nil {
-
 		if err == sql.ErrNoRows {
 			return nil, nil // Пользователь не найден
 		}
@@ -85,4 +84,17 @@ func GetTeams(db *sql.DB) ([]models.Team, error) {
 		teams = append(teams, team)
 	}
 	return teams, nil
+}
+
+func GetTeamByID(db *sql.DB, teamID int) (*models.Team, error) {
+	var team models.Team
+	row := db.QueryRow(`SELECT team_id, team_name FROM "ViTask"."team" WHERE team_id = $1`, teamID)
+	err := row.Scan(&team.TeamID, &team.TeamName)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // Команда не найдена
+		}
+		return nil, err // Ошибка базы данных
+	}
+	return &team, nil
 }

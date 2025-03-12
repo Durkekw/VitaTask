@@ -3,6 +3,9 @@ import "./style.css"
 import remove_btn from '../../../img/png-klev-club-bewz-p-krestik-chernii-png-28.png'
 
 const getRoleName = (roleId) => {
+    if (roleId === null || roleId === undefined) {
+        return "Unknown Role";
+    }
     switch (roleId) {
         case 1:
             return "Manager";

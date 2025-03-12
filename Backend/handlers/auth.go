@@ -4,36 +4,30 @@ import (
 	"Backend/database"
 	"Backend/models"
 	"database/sql"
-	"encoding/json"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
 )
 
-func RegisterHandler(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func RegisterHandler(db *sql.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
 		var user models.User
-		err := json.NewDecoder(r.Body).Decode(&user)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
+		if err := c.BodyParser(&user); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		// Проверяем, существует ли пользователь с таким email
 		existingUser, err := database.GetUserByEmail(db, user.Email)
 		if err != nil && err != sql.ErrNoRows {
-			http.Error(w, "Database error", http.StatusInternalServerError)
-			return
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Database error"})
 		}
 		if existingUser != nil {
-			http.Error(w, "Email already exists", http.StatusConflict) // 409 Conflict
-			return
+			return c.Status(fiber.StatusConflict).JSON(fiber.Map{"error": "Email already exists"})
 		}
 
 		// Хэшируем пароль
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 		if err != nil {
-			http.Error(w, "Failed to hash password", http.StatusInternalServerError)
-			return
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to hash password"})
 		}
 		user.Password = string(hashedPassword)
 
@@ -46,8 +40,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 			user.Email, user.Password, user.Name, user.Surname,
 		).Scan(&userID)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
 		// Получаем данные зарегистрированного пользователя
@@ -60,34 +53,39 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		// Возвращаем данные пользователя
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(registeredUser)
+		return c.Status(fiber.StatusCreated).JSON(registeredUser)
 	}
 }
 
-func LoginHandler(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func LoginHandler(db *sql.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
 		var user models.User
-		err := json.NewDecoder(r.Body).Decode(&user)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
+		if err := c.BodyParser(&user); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
 		}
 
+		// Получаем пользователя по email
 		storedUser, err := database.GetUserByEmail(db, user.Email)
 		if err != nil {
-			http.Error(w, "User not found", http.StatusUnauthorized)
-			return
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "User not found"})
 		}
 
+		// Проверяем пароль
 		err = bcrypt.CompareHashAndPassword([]byte(storedUser.Password), []byte(user.Password))
 		if err != nil {
-			http.Error(w, "Invalid password", http.StatusUnauthorized)
-			return
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid password"})
 		}
 
-		// Возвращаем данные пользователя вместо сообщения
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(storedUser) // Возвращаем данные пользователя
+		// Если у пользователя есть команда, получаем её
+		if storedUser.TeamID.Valid {
+			team, err := database.GetTeamByID(db, int(storedUser.TeamID.Int64))
+			if err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to get team"})
+			}
+			storedUser.Team = team
+		}
+
+		// Возвращаем данные пользователя
+		return c.Status(fiber.StatusOK).JSON(storedUser)
 	}
 }

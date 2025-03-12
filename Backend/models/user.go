@@ -10,4 +10,5 @@ type User struct {
 	Surname  string        `json:"surname"`
 	TeamID   sql.NullInt64 `json:"team_id"`
 	RoleID   sql.NullInt64 `json:"role_id"`
+	Team     *Team         `json:"team,omitempty"` // Добавляем поле для команды
 }

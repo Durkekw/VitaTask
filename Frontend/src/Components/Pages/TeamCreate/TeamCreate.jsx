@@ -18,12 +18,10 @@ export default function TeamCreate() {
             return;
         }
 
-        // Отправляем название команды и userId
         dispatch(createTeam({ teamName, userId: user.user_id }))
             .unwrap()
             .then((response) => {
                 alert("Команда успешно создана!");
-                // Перенаправляем на страницу команды с teamId
                 navigate(`/team/${response.teamId}`);
             })
             .catch((error) => {

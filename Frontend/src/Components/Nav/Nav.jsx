@@ -7,20 +7,24 @@ import {NavLink, useNavigate} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice.js";
 import { createTeam } from "../../../redux/slices/teamSlice.js";
+import {store} from "../../../redux/store/store.js";
 
 export default function Nav() {
     const [LoginActive, setLoginActive] = useState(false);
     const [RegActive, setRegActive] = useState(false);
-    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const { isAuthenticated} = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
+    const teamId = useSelector((state) => state.team.teamId);
     const activeLink = "nav-list__link nav-list__link--active";
     const normalLink = "nav-list__link";
-    const { team, teamId } = useSelector((state) => state.team);
-    const isUserInTeam = () =>{
-        console.log(user);
-        console.log(user.team_id);
-        console.log(teamId);
+    const { team } = useSelector((state) => state.team);
+    const isUserInTeam = () => {
+        console.log("User from Redux:", user);
+        console.log("User team_id:", user.team_id);
+        console.log("TeamId from Redux:", teamId);
+        console.log("Redux state:", store.getState());
     }
 
     const handleLogout = () => {
@@ -88,7 +92,7 @@ export default function Nav() {
                                 Задачи
                             </NavLink>
                         </div>
-                        {user.team_id.Valid !== false ? ( // Если пользователь принадлежит к команде
+                        {user.team_id ? ( // Если team_id существует и Valid = true
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
@@ -97,7 +101,7 @@ export default function Nav() {
                                     Ваша команда
                                 </NavLink>
                             </div>
-                        ) : ( // Если пользователь не принадлежит к команде
+                        ) : ( // Если team_id не существует или Valid = false
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}

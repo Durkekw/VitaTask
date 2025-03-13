@@ -21,12 +21,17 @@ export default function Teammate(props) {
         <div className="chat-container">
             <div className="teammate">
                 <div className="team-links">
-                    <img className="chat-img" src={logo} alt="User" />
+                    <img className="chat-img" src={logo} alt="User"/>
                     <p className="chat__name">{props.surname} {props.name}</p>
                 </div>
                 <p>Email: {props.email}</p>
                 <p>Role: {getRoleName(props.role)}</p> {/* Преобразуем role_id в название роли */}
-                <button className={props.showBtn ? "btn_delete_member" : "btn_delete_member btn_delete_member-invisible"}><img src={remove_btn}/></button>
+                <button
+                    onClick={() => props.onDelete(props)} // Передаем весь объект props (включая user_id)
+                    className={props.showBtn ? "btn_delete_member" : "btn_delete_member btn_delete_member-invisible"}
+                >
+                    <img src={remove_btn}/>
+                </button>
 
             </div>
         </div>

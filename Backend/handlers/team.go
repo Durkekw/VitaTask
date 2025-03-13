@@ -102,6 +102,47 @@ func AddUserToTeamHandler(db *sql.DB) fiber.Handler {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "User added to team successfully"})
 	}
 }
+
+func DeleteUserFromTeamHandler(db *sql.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		// Получаем user_id и team_id из параметров URL
+		userID, err := c.ParamsInt("user_id")
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user_id"})
+		}
+
+		teamID, err := c.ParamsInt("team_id")
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid team_id"})
+		}
+
+		var exists bool
+		err = db.QueryRow(`SELECT EXISTS(SELECT 1 FROM "ViTask"."user" WHERE user_id = $1)`, userID).Scan(&exists)
+		if err != nil || !exists {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+		}
+
+		err = db.QueryRow(`SELECT EXISTS(SELECT 1 FROM "ViTask"."team" WHERE team_id = $1)`, teamID).Scan(&exists)
+		if err != nil || !exists {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Team not found"})
+		}
+
+		log.Printf("Deleting user %d from team %d", userID, teamID)
+
+		_, err = db.Exec(`UPDATE "ViTask"."user" SET team_id = NULL, role_id = NULL WHERE user_id = $1`, userID)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update user"})
+		}
+
+		err = database.DeleteFromTeam(db, userID, teamID)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to delete user from team"})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "User deleted from team successfully"})
+	}
+}
+
 func GetTeamMembersHandler(db *sql.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		teamID, err := strconv.Atoi(c.Params("teamId"))

@@ -3,7 +3,12 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import Teammate from "../../Elements/Teammate/Teammate.jsx";
-import { fetchTeamMembers } from "../../../../redux/slices/teamSlice";
+import {
+    addUserToTeam,
+    deleteUserFromTeam,
+    fetchTeamMembers,
+    fetchUnteamedUsers
+} from "../../../../redux/slices/teamSlice";
 import AddMember from "../../AddMember/AddMember.jsx";
 
 export default function Team() {
@@ -20,6 +25,32 @@ export default function Team() {
 
     const handleActive = () => {
         setAddingActive(true);
+    };
+
+    const handleDeleteUser = async (user) => {
+        try {
+            const teamId = JSON.parse(localStorage.getItem("teamId"));
+
+            if (!teamId) {
+                alert("Команда не выбрана");
+                return;
+            }
+
+            console.log("Deleting user with ID:", user.user_id); // Логируем user_id
+            console.log("Deleting from team with ID:", teamId); // Логируем teamId
+
+            if (!user.user_id || !teamId) {
+                console.error("userId or teamId is missing");
+                return;
+            }
+
+            await dispatch(deleteUserFromTeam({ userId: user.user_id, teamId })).unwrap(); // Обновляем список
+
+            alert(`Пользователь ${user.name} удален из команды`);
+        } catch (error) {
+            console.error("Ошибка при удалении пользователя из команды:", error);
+            alert("Не удалось удалить пользователя из команды.");
+        }
     };
 
     useEffect(() => {
@@ -75,6 +106,7 @@ export default function Team() {
                     roleId={member.role_id}
                     img={"https://via.placeholder.com/50"}
                     showBtn={showBtn}
+                    onDelete={handleDeleteUser}
                 />
             ))}
             <AddMember active={addingActive} setActive={setAddingActive} />

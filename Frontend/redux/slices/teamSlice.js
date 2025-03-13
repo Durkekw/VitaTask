@@ -44,6 +44,26 @@ export const addUserToTeam = createAsyncThunk(
     }
 );
 
+export const deleteUserFromTeam = createAsyncThunk(
+    "team/deleteUserFromTeam",
+    async ({ userId, teamId }, { rejectWithValue }) => {
+        if (!userId || !teamId) {
+            console.error("userId or teamId is missing");
+            return rejectWithValue("userId or teamId is missing");
+        }
+
+        try {
+            console.log("Deleting user from team:", userId, teamId); // Логируем userId и teamId
+            const response = await axios.delete(
+                `http://localhost:8080/delete-user-from-team/${userId}/${teamId}`
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const fetchUnteamedUsers = createAsyncThunk(
     "team/fetchUnteamedUsers",
     async (_, { rejectWithValue }) => {
@@ -171,7 +191,19 @@ const teamSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
                 console.error("Error fetching unteamed users:", action.payload);
-            });
+            })
+            .addCase(deleteUserFromTeam.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteUserFromTeam.fulfilled, (state, action) => {
+                state.loading = false;
+                // Обновляем команду, если нужно
+            })
+            .addCase(deleteUserFromTeam.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     },
 });
 

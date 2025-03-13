@@ -92,7 +92,7 @@ export default function Nav() {
                                 Задачи
                             </NavLink>
                         </div>
-                        {user.team_id ? ( // Если team_id существует и Valid = true
+                        {user.team_id && user.team_id.Valid !== null ? ( // Если team_id существует и Valid = true
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}

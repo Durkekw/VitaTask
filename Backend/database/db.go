@@ -54,6 +54,14 @@ func AddUserToTeam(db *sql.DB, userID, teamID int) error {
 	return err
 }
 
+func DeleteFromTeam(db *sql.DB, userId int, teamID int) error {
+	_, err := db.Exec(`DELETE FROM "ViTask"."user_team" WHERE user_id = $1 AND team_id = $2`, userId, teamID)
+	if err != nil {
+		log.Printf("Failed to delete user %d from team %d: %v", userId, teamID, err)
+	}
+	return err
+}
+
 func GetUserByEmail(db *sql.DB, email string) (*models.User, error) {
 	var user models.User
 	row := db.QueryRow(`SELECT user_id, email, password, name, surname, team_id, role_id FROM "ViTask"."user" WHERE email = $1`, email)

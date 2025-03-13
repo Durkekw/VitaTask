@@ -27,6 +27,7 @@ func main() {
 	app.Post("/login", handlers.LoginHandler(db))
 	app.Post("/create-team", handlers.CreateTeamHandler(db))
 	app.Post("/add-user-to-team", handlers.AddUserToTeamHandler(db))
+	app.Delete("/delete-user-from-team/:user_id/:team_id", handlers.DeleteUserFromTeamHandler(db))
 	app.Get("/team/:teamId/members", handlers.GetTeamMembersHandler(db))
 	app.Get("/unteamed-users", handlers.GetUnteamedUsersHandler(db))
 

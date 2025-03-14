@@ -9,11 +9,11 @@ export default React.memo(function Unteamed(props) {
         <div className="chat-container">
             <div className="teammate">
                 <div className="team-links">
-                    <img className="chat-img" src={props.logo} alt="User" />
+                    <img className="chat-img" src={logo} alt="User" />
                     <p className="chat__name">{props.surname} {props.name}</p>
                 </div>
                 <button onClick={props.onAdd}>
-                    <img src={props.remove_btn} alt="Add User" />
+                    <img src={adding} className="add_btn" alt="Add User" />
                 </button>
             </div>
         </div>

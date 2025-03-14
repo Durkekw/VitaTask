@@ -38,14 +38,15 @@ export default function Nav() {
             <div className="top_nav">
                 <ul className="top-nav__list">
                     <li className="top-nav__item nav_logo">
-                        <div>
+                        <NavLink to="/">
                             <img className="logo" src={logo} alt="logo" />
-                        </div>
-                        <div>
+                        </NavLink>
+                        <NavLink
+                            to="/">
                             <h1 className="hh">
                                 Vita<span>Task</span>
                             </h1>
-                        </div>
+                        </NavLink>
                     </li>
                     {!isAuthenticated ? (
                         <li className="top-nav__item">
@@ -57,9 +58,13 @@ export default function Nav() {
                             </button>
                         </li>
                     ) : (
-                        <li className="top-nav__item">
-                            <button className="nav__btn" >
-                                <a onClick={handleLogout}>Выйти</a>
+                        <li className="top-nav__item userData">
+                            <div className="user-data">
+                                <h1>{user.surname} </h1>
+                                <h1>{user.name}</h1>
+                            </div>
+                            <button className="nav__btn">
+                            <a onClick={handleLogout}>Выйти</a>
                             </button>
                         </li>
                     )}

@@ -93,6 +93,14 @@ func AddUserToTeamHandler(db *sql.DB) fiber.Handler {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update team_id"})
 		}
 
+		_, err = db.Exec(
+			`UPDATE "ViTask"."user" SET role_id = 2 WHERE user_id = $1`,
+			request.UserID,
+		)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
 		// Добавляем пользователя в команду
 		err = database.AddUserToTeam(db, request.UserID, request.TeamID)
 		if err != nil {

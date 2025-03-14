@@ -1,5 +1,6 @@
 .team_btns{
-    margin: 1vh 0;
+    margin: 2vh 0;
+    padding: 1vh;
 }
 
 .team-btn{
@@ -7,4 +8,10 @@
     width: 10vw;
     height: 5vh;
     background-color: #dcb996;
+}
+
+.team-leaving{
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
 }

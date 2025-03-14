@@ -25,7 +25,7 @@ span{
 }
 
 .nav a{
-    opacity: 60%;
+    /*opacity: 60%;*/
     text-decoration: none;
     font-size: 22px;
     color: #fbfbfb;
@@ -36,6 +36,10 @@ span{
     justify-content: center;
     text-align: center;
     color: #3372c3;
+}
+
+.nav-list__link{
+    opacity: 60%;
 }
 
 .nav-list__link--active {
@@ -64,6 +68,7 @@ span{
 
 .hh{
     margin-top: 7px;
+    color:#464646;
 }
 
 .top-nav__list{
@@ -113,9 +118,8 @@ span{
     display: flex;
 }
 .logo{
-    max-width: 50px;
-    max-height: 50px;
-    margin-right: 5px;
+    max-width: 60px;
+    max-height: 55px;
 }
 
 .side_nav a:hover {
@@ -123,5 +127,16 @@ span{
     background: linear-gradient(90deg, rgba(215,215,215,1) 0%, rgba(215,215,215,0.165703781512605) 100%);
 }
 
+.userData h1{
+    color: #cd3030;
+    margin-right: 7px;
+    margin-bottom: 4px;
+    opacity: 70%;
+}
+
+.user-data{
+    display: flex;
+    margin-right: 20px;
+}
 
 

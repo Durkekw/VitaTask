@@ -1,7 +1,7 @@
 import "./style.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Teammate from "../../Elements/Teammate/Teammate.jsx";
 import {
     addUserToTeam,
@@ -18,14 +18,22 @@ export default function Team() {
     const { teamId, members, loading, error } = useSelector((state) => state.team);
     const { teamId: paramTeamId } = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleClick = () => {
         setShowBtn(!showBtn);
     };
 
+
     const handleActive = () => {
         setAddingActive(true);
     };
+
+    const handleLeaveFTeam = () => {
+        handleDeleteUser(user);
+        navigate('/');
+    }
+
     const handleDeleteUser = async (user) => {
         try {
 
@@ -46,7 +54,7 @@ export default function Team() {
 
             await dispatch(deleteUserFromTeam({ userId: user.user_id, teamId })).unwrap(); // Обновляем список
 
-            alert(`Пользователь ${user.name} удален из команды`);
+            // alert(`Пользователь ${user.name} удален из команды`);
         } catch (error) {
             console.error("Ошибка при удалении пользователя из команды:", error);
             alert("Не удалось удалить пользователя из команды.");
@@ -90,12 +98,16 @@ export default function Team() {
 
     return (
         <div className="container">
-            <div className="team_btns">
+            <div className="team-leaving">
+                <h1 className="team-title">Название команды: "{user.team.team_name}"</h1>
+                <button onClick={handleLeaveFTeam} className="btn team-btn">Выйти</button>
+            </div>
+            {user.role_id === 1 && <div className="team_btns">
                 <button onClick={handleActive} className="btn team-btn">Добавить</button>
                 <button onClick={handleClick} className="btn team-btn">
                     Удалить
                 </button>
-            </div>
+            </div>}
             {members.map((member, index) => (
                 <Teammate
                     key={member.user_id}

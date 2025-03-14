@@ -26,9 +26,9 @@ export default function Team() {
     const handleActive = () => {
         setAddingActive(true);
     };
-
     const handleDeleteUser = async (user) => {
         try {
+
             const teamId = JSON.parse(localStorage.getItem("teamId"));
 
             if (!teamId) {
@@ -106,7 +106,7 @@ export default function Team() {
                     roleId={member.role_id}
                     img={"https://via.placeholder.com/50"}
                     showBtn={showBtn}
-                    onDelete={handleDeleteUser}
+                    onDelete={ () => {handleDeleteUser(member)}}
                 />
             ))}
             <AddMember active={addingActive} setActive={setAddingActive} />

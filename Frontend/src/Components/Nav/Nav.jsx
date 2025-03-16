@@ -25,11 +25,21 @@ export default function Nav() {
         console.log("User team_id:", user.team_id);
         console.log("TeamId from Redux:", teamId);
         console.log("Redux state:", store.getState());
+        console.log(user.team?.team_name)
     }
 
     const handleLogout = () => {
         navigate('/');
         dispatch(logout());
+    };
+
+    const hasTeamId = () => {
+        if (user.team_id && typeof user.team_id === "object" && user.team_id.Valid) {
+            return true;
+        } else if (typeof user.team_id === "number") {
+            return true;
+        }
+        return false;
     };
 
 
@@ -50,10 +60,10 @@ export default function Nav() {
                     </li>
                     {!isAuthenticated ? (
                         <li className="top-nav__item">
-                            <button className="nav__btn">
+                            <button className="nav__btn side__btn">
                                 <a onClick={() => setLoginActive(true)}>Войти</a>
                             </button>
-                            <button className="nav__btn">
+                            <button className="nav__btn side__btn">
                                 <a onClick={() => setRegActive(true)}>Регистрация</a>
                             </button>
                         </li>
@@ -63,7 +73,7 @@ export default function Nav() {
                                 <h1>{user.surname} </h1>
                                 <h1>{user.name}</h1>
                             </div>
-                            <button className="nav__btn">
+                            <button className="nav__btn side__btn">
                             <a onClick={handleLogout}>Выйти</a>
                             </button>
                         </li>
@@ -89,15 +99,15 @@ export default function Nav() {
                                 Мессенджер
                             </NavLink>
                         </div>
-                        <div className="side__btn">
+                        {hasTeamId() && <div className="side__btn">
                             <NavLink
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                 to="/tasks"
                             >
                                 Задачи
                             </NavLink>
-                        </div>
-                        {user.team_id.Int64 !== 0 ? ( // Если team_id существует и Valid = true
+                        </div>}
+                        { hasTeamId() ? (
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}

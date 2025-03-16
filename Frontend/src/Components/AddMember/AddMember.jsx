@@ -36,7 +36,7 @@ const AddMember = React.memo(({ active, setActive }) => {
 
     return (
         <div className={active ? "add-form active" : "add-form"} onClick={() => setActive(false)}>
-            <section className="form__window" onClick={(e) => e.stopPropagation()}>
+            <section className="form__window add__window" onClick={(e) => e.stopPropagation()}>
                 {loading && <p>Загрузка...</p>}
                 {!loading && unteamedUsers && unteamedUsers.length > 0 ? (
                     unteamedUsers.map((user) => (

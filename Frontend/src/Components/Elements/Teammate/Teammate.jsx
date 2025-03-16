@@ -26,13 +26,14 @@ export default function Teammate(props) {
                 </div>
                 <p>Email: {props.email}</p>
                 <p>Role: {getRoleName(props.role)}</p> {/* Преобразуем role_id в название роли */}
-                <button
+                {props.currentUserId !== props.user_id ?  (<button
                     onClick={() => props.onDelete(props)} // Передаем весь объект props (включая user_id)
                     className={props.showBtn ? "btn_delete_member" : "btn_delete_member btn_delete_member-invisible"}
                 >
                     <img src={remove_btn}/>
-                </button>
-
+                </button>) : (
+                        <div className="btn_delete_member"></div>
+                    )}
             </div>
         </div>
     );

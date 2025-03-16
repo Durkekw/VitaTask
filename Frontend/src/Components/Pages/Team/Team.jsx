@@ -7,7 +7,7 @@ import {
     addUserToTeam,
     deleteUserFromTeam,
     fetchTeamMembers,
-    fetchUnteamedUsers
+    fetchUnteamedUsers, leaveTeam
 } from "../../../../redux/slices/teamSlice";
 import AddMember from "../../AddMember/AddMember.jsx";
 
@@ -22,6 +22,10 @@ export default function Team() {
 
     const handleClick = () => {
         setShowBtn(!showBtn);
+        console.log(user.user_id)
+        members.map((member, index) => (
+            console.log(member.user_id)
+        ))
     };
 
 
@@ -30,9 +34,15 @@ export default function Team() {
     };
 
     const handleLeaveFTeam = () => {
-        handleDeleteUser(user);
-        navigate('/');
-    }
+        dispatch(leaveTeam())
+            .unwrap()
+            .then(() => {
+                navigate('/');
+            })
+            .catch((error) => {
+                console.error("Ошибка при выходе из команды:", error);
+            });
+    };
 
     const handleDeleteUser = async (user) => {
         try {
@@ -44,8 +54,8 @@ export default function Team() {
                 return;
             }
 
-            console.log("Deleting user with ID:", user.user_id); // Логируем user_id
-            console.log("Deleting from team with ID:", teamId); // Логируем teamId
+            console.log("Deleting user with ID:", user.user_id);
+            console.log("Deleting from team with ID:", teamId);
 
             if (!user.user_id || !teamId) {
                 console.error("userId or teamId is missing");
@@ -99,8 +109,8 @@ export default function Team() {
     return (
         <div className="container">
             <div className="team-leaving">
-                <h1 className="team-title">Название команды: "{user.team.team_name}"</h1>
-                <button onClick={handleLeaveFTeam} className="btn team-btn">Выйти</button>
+                {<h1 className={user.team ? "team-title active_Ttitle" : "team-title"}>Название команды: "{user.team?.team_name}"</h1>}
+                <button onClick={handleLeaveFTeam} className="btn team-btn">Выйти из команды</button>
             </div>
             {user.role_id === 1 && <div className="team_btns">
                 <button onClick={handleActive} className="btn team-btn">Добавить</button>
@@ -110,6 +120,8 @@ export default function Team() {
             </div>}
             {members.map((member, index) => (
                 <Teammate
+                    user_id={member.user_id} // Идентификатор участника команды
+                    currentUserId={user.user_id}
                     key={member.user_id}
                     surname={member.surname}
                     name={member.name}

@@ -15,3 +15,11 @@
     padding: 20px;
     justify-content: space-between;
 }
+
+.team-title{
+    transform: scale(0)
+}
+
+.active_Ttitle{
+    transform: scale(1)
+}

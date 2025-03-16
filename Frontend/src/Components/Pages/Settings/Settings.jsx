@@ -16,7 +16,7 @@ export default function Settings(props) {
                            id="login" placeholder={props.login}/>
                 </div>
                 <div className="sett-group">
-                    <p>Логин</p>
+                    <p>Email</p>
                     <input className="form-control item" type="text" name="Логин" maxLength="15" minLength="4"
                            id="login" placeholder={props.login}/>
                 </div>

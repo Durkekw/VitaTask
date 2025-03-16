@@ -16,7 +16,7 @@ func main() {
 
 	// Настройка CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:5173",
+		AllowOrigins:     "http://localhost:5174",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Content-Type,Authorization",
 		AllowCredentials: true,
@@ -30,6 +30,7 @@ func main() {
 	app.Delete("/delete-user-from-team/:user_id/:team_id", handlers.DeleteUserFromTeamHandler(db))
 	app.Get("/team/:teamId/members", handlers.GetTeamMembersHandler(db))
 	app.Get("/unteamed-users", handlers.GetUnteamedUsersHandler(db))
+	app.Post("/settings/:user_id", handlers.SettingsHandler(db))
 
 	log.Println("Server started on :8080")
 	log.Fatal(app.Listen(":8080"))

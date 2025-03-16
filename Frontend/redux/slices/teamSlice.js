@@ -29,6 +29,33 @@ export const createTeam = createAsyncThunk(
     }
 );
 
+export const leaveTeam = createAsyncThunk(
+    "team/leaveTeam",
+    async (_, { rejectWithValue, dispatch }) => {
+        try {
+            const user = JSON.parse(localStorage.getItem("user"));
+            const teamId = JSON.parse(localStorage.getItem("teamId"));
+
+            if (!user || !teamId) {
+                return rejectWithValue("User or teamId is missing");
+            }
+
+            // Удаляем пользователя из команды
+            await dispatch(deleteUserFromTeam({ userId: user.user_id, teamId })).unwrap();
+
+            // Обновляем team_id пользователя в authSlice
+            dispatch(updateUserTeamId(null));
+
+            // Очищаем teamId в teamSlice
+            dispatch(clearTeam());
+
+            return true;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const addUserToTeam = createAsyncThunk(
     "team/addUserToTeam",
     async ({ userId, teamId }, { rejectWithValue }) => {

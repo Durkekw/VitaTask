@@ -27,3 +27,7 @@
     width: 50px;
     margin-right: 3%;
 }
+
+.add__window{
+    overflow: auto
+}

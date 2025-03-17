@@ -39,11 +39,11 @@ func SettingsHandler(db *sql.DB) fiber.Handler {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch user"})
 		}
 
-		// Проверяем, совпадает ли старый пароль
+		//Проверяем, совпадает ли старый пароль
 		if updatedUser.Password != "" { // Если новый пароль предоставлен
 			err = bcrypt.CompareHashAndPassword([]byte(currentUser.Password), []byte(updatedUser.Password))
-			if err != nil {
-				return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Incorrect old password"})
+			if err == nil {
+				return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Passwords are the same"})
 			}
 		}
 
@@ -59,7 +59,16 @@ func SettingsHandler(db *sql.DB) fiber.Handler {
 			updatedUser.Password = currentUser.Password
 		}
 
-		// Обновляем данные пользователя в базе данных
+		if updatedUser.Name == "" {
+			updatedUser.Name = currentUser.Name
+		}
+		if updatedUser.Surname == "" {
+			updatedUser.Surname = currentUser.Surname
+		}
+		if updatedUser.Email == "" {
+			updatedUser.Email = currentUser.Email
+		}
+
 		queryUpdateUser := `
             UPDATE "ViTask"."user"
             SET email = COALESCE($1, email),

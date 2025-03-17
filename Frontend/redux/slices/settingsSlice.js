@@ -11,7 +11,7 @@ export const updateUser = createAsyncThunk(
                 name,
                 surname,
             });
-            return response.data; // Ожидаем, что бэкенд возвращает обновленные данные пользователя
+            return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -40,8 +40,9 @@ const settingsSlice = createSlice({
             })
             .addCase(updateUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload; // Обновляем данные пользователя
-                localStorage.setItem("user", JSON.stringify(action.payload)); // Сохраняем в localStorage
+                state.user = action.payload;
+                localStorage.setItem("user", JSON.stringify(action.payload));
+               // window.location = 'http://localhost:5173/settings';
             })
             .addCase(updateUser.rejected, (state, action) => {
                 state.loading = false;

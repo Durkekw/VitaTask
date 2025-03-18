@@ -14,7 +14,7 @@ import AddMember from "../../AddMember/AddMember.jsx";
 export default function Team() {
     const [showBtn, setShowBtn] = useState(false);
     const [addingActive, setAddingActive] = useState(false);
-    const { user } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.user);
     const { teamId, members, loading, error } = useSelector((state) => state.team);
     const { teamId: paramTeamId } = useParams();
     const dispatch = useDispatch();

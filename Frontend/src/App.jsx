@@ -13,7 +13,7 @@ import TSettings from "./Components/TSettings/TSettings.jsx";
 import CreateT from "./Components/TaskCreate/CreateT.jsx";
 import Team from "./Components/Pages/Team/Team.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
-import {loadUser} from "../redux/slices/authSlice.js";
+import {loadUser} from "../redux/slices/userSlice.js";
 import {useDispatch} from "react-redux";
 import TeamCreate from "./Components/Pages/TeamCreate/TeamCreate.jsx";
 
@@ -32,14 +32,14 @@ function App() {
               <Nav/>
               <Routes>
                   <Route path="/" element={<Main/>}/>
-                  <Route path="/messenger" element={<Messenger/>}/>
-                  <Route path="/tasks:id" element={<Tasks/>}/>
+                  <Route path="/messenger/:userId" element={<Messenger/>}/>
+                  <Route path="/tasks/:teamId" element={<Tasks/>}/>
                   <Route path="/settings" element={<Settings/>} />
                   <Route path="/im/:id" element={<Messages/>}/>
-                  <Route path="/task-settings/:id" element={<TSettings/>}/>
+                  <Route path="/task-settings" element={<TSettings/>}/>
                   <Route path="/task-change" element={<CreateT/>}/>
                   <Route path="/team/:teamId" element={<Team/>}/>
-                  <Route path="/profile/:id" element={<Profile/>}/>
+                  <Route path="/profile/:userId" element={<Profile/>}/>
                   <Route path="/teamcr" element={<TeamCreate/>}/>
               </Routes>
               <Footer/>

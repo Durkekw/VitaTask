@@ -5,17 +5,17 @@ import LoginForm from "../LoginForm/Login.jsx";
 import Registration from "../LoginForm/Registration.jsx";
 import {NavLink, useNavigate} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../../redux/slices/authSlice.js";
+import { logout } from "../../../redux/slices/userSlice.js";
 import { createTeam } from "../../../redux/slices/teamSlice.js";
 import {store} from "../../../redux/store/store.js";
 
 export default function Nav() {
     const [LoginActive, setLoginActive] = useState(false);
     const [RegActive, setRegActive] = useState(false);
-    const { isAuthenticated} = useSelector((state) => state.auth);
+    const { isAuthenticated} = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.user.user);
     const teamId = useSelector((state) => state.team.teamId);
     const activeLink = "nav-list__link nav-list__link--active";
     const normalLink = "nav-list__link";
@@ -102,7 +102,7 @@ export default function Nav() {
                         {hasTeamId() && <div className="side__btn">
                             <NavLink
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}
-                                to="/tasks"
+                                to={`/tasks/${teamId}`}
                             >
                                 Задачи
                             </NavLink>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../../redux/slices/authSlice.js";
+import { loginUser } from "../../../redux/slices/userSlice.js";
 import "./style.css";
 import close from "../../img/png-klev-club-bewz-p-krestik-chernii-png-28.png";
 
@@ -8,7 +8,7 @@ export default function LoginForm({ active, setActive }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.auth);
+    const { loading, error } = useSelector((state) => state.user);
 
     const handleSubmit = (e) => {
         e.preventDefault();

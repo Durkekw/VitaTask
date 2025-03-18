@@ -15,7 +15,7 @@ import {useSelector} from "react-redux";
 
 export default function Main(){
     const [RegActive, setRegActive] = useState(false);
-    const { isAuthenticated } = useSelector((state) => state.auth);
+    const { isAuthenticated } = useSelector((state) => state.user);
 
 
     return (

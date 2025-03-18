@@ -1,7 +1,7 @@
 import "./style.css"
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {updateUser} from "../../../../redux/slices/settingsSlice.js";
+import {updateUser} from "../../../../redux/slices/userSlice.js";
 
 
 export default function Settings(props) {
@@ -11,12 +11,11 @@ export default function Settings(props) {
     const [surname, setSurname] = useState("");
     const [err, setErr] = useState('')
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.auth);
-    const user = useSelector((state) => state.auth.user);
+    const { loading, error } = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user.user);
     const userID = user.user_id
 
     const handleSubmit = (e) => {
-        console.log(err)
         e.preventDefault();
         dispatch(updateUser({ email, password, name, surname, userID }))
         .unwrap()
@@ -27,7 +26,6 @@ export default function Settings(props) {
             setSurname("");
         })
             .catch((err) => {
-                e.preventDefault();
                 console.error("Update failed:", err);
                 setErr(err);
             });

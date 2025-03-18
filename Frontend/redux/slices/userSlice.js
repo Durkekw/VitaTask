@@ -17,6 +17,23 @@ export const loginUser = createAsyncThunk(
     }
 );
 
+export const updateUser = createAsyncThunk(
+    'settings/updateUser',
+    async ({email, password, name, surname, userID}, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(`http://localhost:8080/settings/${userID}`, {
+                email,
+                password,
+                name,
+                surname,
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
 export const registerUser = createAsyncThunk(
     "auth/register",
     async ({ email, password, name, surname, team_id }, { rejectWithValue }) => {
@@ -36,8 +53,8 @@ export const registerUser = createAsyncThunk(
 );
 
 // Слайс
-const authSlice = createSlice({
-    name: "auth",
+const userSlice = createSlice({
+    name: "user",
     initialState: {
         user: JSON.parse(localStorage.getItem("user")) || null,
         isAuthenticated: !!JSON.parse(localStorage.getItem("user")),
@@ -45,6 +62,11 @@ const authSlice = createSlice({
         error: null,
     },
     reducers: {
+        resetSettings: (state) => {
+            state.user = null;
+            state.loading = false;
+            state.error = null;
+        },
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
@@ -104,9 +126,23 @@ const authSlice = createSlice({
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
+            })
+            .addCase(updateUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                localStorage.setItem("user", JSON.stringify(action.payload));
+                    // window.location = 'http://localhost:5173/settings';
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
             });
     },
 });
 
-export const { logout, loadUser, updateUserTeamId } = authSlice.actions;
-export default authSlice.reducer;
+export const { logout, loadUser, updateUserTeamId, resetSettings } = userSlice.actions;
+export default userSlice.reducer;

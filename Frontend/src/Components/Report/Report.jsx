@@ -26,13 +26,15 @@ export default function Report({active, setActive}) {
     return (
         <div className={active ? "report active" : "report"} onClick={() => setActive(false)}>
             <section className="report__window" onClick={e => e.stopPropagation()}>
+                <form>
                 <h2 className="rep-title">Отчет</h2>
                 <h2 className="report_status">Статус</h2>
                 {!expanded && <div className="status_changer" onClick={handleClick}>{status}</div>}
                 {expanded && content}
                 <textarea className="re__type" id="disText"
                           placeholder="Текст отчета"/>
-                <button className="btn save_btn">Отправить</button>
+                <button type="submit" className="btn save_btn">Отправить</button>
+                </form>
             </section>
         </div>
     )

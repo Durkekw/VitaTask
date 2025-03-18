@@ -5,6 +5,7 @@ import send from "../../img/free-icon-send-button-60525.png";
 import {useState} from "react";
 import Message from "../Elements/Message/Message.jsx";
 import Report from "../Report/Report.jsx";
+import {useSelector} from "react-redux";
 
 export default function TSettings() {
     const {id} = useParams();
@@ -19,6 +20,7 @@ export default function TSettings() {
     const [textValue, setTextValue] = useState('');
     const [messages, setMessages] = useState([]);
     const [reportActive, setReportActive] = useState(false);
+    const teamId = useSelector((state) => state.team.teamId)
 
 
         const handleTextChange = (event) => {
@@ -47,18 +49,18 @@ export default function TSettings() {
             <div className="container">
                 <div className="tSettings">
                     <h1 className="page__title">Task Settings</h1>
-                    <h1 className="fTitle">{settings.title}</h1>
+                    {/*<h1 className="fTitle">{settings.title}</h1>*/}
                     <h1 className="respTitle">Ответственный:</h1>
                     <h2 className="respDesc">
-                        {settings.surname} {settings.name}
+                        {/*{settings.surname} {settings.name}*/}
                     </h2>
                     <h2 className="create_date_title">Дата создания:</h2>
-                    <h3 className="create_date_content">{settings.created_at}</h3>
+                    {/*<h3 className="create_date_content">{settings.created_at}</h3>*/}
                     <h2 className="deadline_title">Сроки:</h2>
-                    <h3 className="deadline_content">{settings.deadline}</h3>
+                    {/*<h3 className="deadline_content">{settings.deadline}</h3>*/}
                     <h1 className="descTitle">Описание задачи:</h1>
-                    <p className="descDesc">{settings.desc}</p>
-                    <NavLink to={"/tasks"} className="btn back__btn"></NavLink>
+                    {/*<p className="descDesc">{settings.desc}</p>*/}
+                    <NavLink to={`/tasks/${teamId}`} className="btn back__btn"></NavLink>
                     <button onClick={handlePopupClick} className="btn task-rep-btn">Отправить отчет</button>
                     <h1 className="descTitle">Статус</h1>
                     <div className="statusbar tStatus">

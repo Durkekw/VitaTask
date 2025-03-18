@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {loginUser, updateUserTeamId} from "../slices/authSlice.js";
+import {loginUser, updateUserTeamId} from "./userSlice.js";
 
 // Асинхронные действия (thunks)
 export const createTeam = createAsyncThunk(

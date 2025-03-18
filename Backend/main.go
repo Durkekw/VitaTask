@@ -31,6 +31,7 @@ func main() {
 	app.Get("/team/:teamId/members", handlers.GetTeamMembersHandler(db))
 	app.Get("/unteamed-users", handlers.GetUnteamedUsersHandler(db))
 	app.Post("/settings/:user_id", handlers.SettingsHandler(db))
+	app.Post("/create-task", handlers.CreateTaskHandler(db))
 
 	log.Println("Server started on :8080")
 	log.Fatal(app.Listen(":8080"))

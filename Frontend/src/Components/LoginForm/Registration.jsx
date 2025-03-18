@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../../redux/slices/authSlice.js";
+import { registerUser } from "../../../redux/slices/userSlice.js";
 import "./style.css";
 import close from "../../img/png-klev-club-bewz-p-krestik-chernii-png-28.png";
 
@@ -10,7 +10,7 @@ export default function Registration({ active, setActive }) {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.auth);
+    const { loading, error } = useSelector((state) => state.user);
 
     const handleSubmit = (e) => {
         e.preventDefault();

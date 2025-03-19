@@ -17,7 +17,7 @@ export default function CreateT() {
                     <input className="form-control" type="text" id="taskTitle"
                            placeholder="Введите название вашей задачи" required/>
                     <h1 className="respTitle">Ответственный:</h1>
-                    <select className="form-control" name="colors">
+                    <select className="form-control" name="members">
                         {members.map((member) => (
                             <option key={member.user_id} value={member.user_id}>
                                 {member.surname} {member.name}

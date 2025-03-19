@@ -106,3 +106,66 @@ func GetTeamByID(db *sql.DB, teamID int) (*models.Team, error) {
 	}
 	return &team, nil
 }
+
+func GetTasks(db *sql.DB) ([]models.Task, error) {
+	rows, err := db.Query(`SELECT task_id, task_title, task_description, task_status, deadline, created_at, team_id, user_id FROM "ViTask"."task"`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []models.Task
+	for rows.Next() {
+		var task models.Task
+		err := rows.Scan(&task.TaskID, &task.TaskTitle, &task.TaskDesc, &task.TaskStatus, &task.Deadline, &task.CreatedAt, &task.TeamId, &task.UserID)
+		if err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, task)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}
+
+func GetTaskComments(db *sql.DB, taskID int) ([]models.TaskComment, error) {
+	rows, err := db.Query(
+		`SELECT task_comment_id, task_comment_content, task_id, user_id 
+		 FROM "ViTask"."task_comment" 
+		 WHERE task_id = $1 
+		 ORDER BY task_comment_id ASC`,
+		taskID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var comments []models.TaskComment
+	for rows.Next() {
+		var comment models.TaskComment
+		err := rows.Scan(&comment.TaskCommentID, &comment.TaskCommentContent, &comment.TaskID, &comment.UserID)
+		if err != nil {
+			return nil, err
+		}
+		comments = append(comments, comment)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return comments, nil
+}
+
+func AddTaskComment(db *sql.DB, comment models.TaskComment) error {
+	_, err := db.Exec(
+		`INSERT INTO "ViTask"."task_comment" (task_comment_content, task_id, user_id) 
+		 VALUES ($1, $2, $3)`,
+		comment.TaskCommentContent, comment.TaskID, comment.UserID,
+	)
+	return err
+}

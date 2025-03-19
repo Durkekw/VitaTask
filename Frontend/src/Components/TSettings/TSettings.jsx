@@ -21,7 +21,7 @@ export default function TSettings() {
     const [messages, setMessages] = useState([]);
     const [reportActive, setReportActive] = useState(false);
     const teamId = useSelector((state) => state.team.teamId)
-
+    const { members } = useSelector((state) => state.team);
 
         const handleTextChange = (event) => {
             setTextValue(event.target.value);
@@ -51,14 +51,25 @@ export default function TSettings() {
                     <h1 className="page__title">Task Settings</h1>
                     {/*<h1 className="fTitle">{settings.title}</h1>*/}
                     <h1 className="respTitle">Ответственный:</h1>
+                    <select className="form-control" name="members">
+                        {members.map((member) => (
+                            <option key={member.user_id} value={member.user_id}>
+                                {member.surname} {member.name}
+                            </option>
+                        ))}
+                    </select>
                     <h2 className="respDesc">
                         {/*{settings.surname} {settings.name}*/}
                     </h2>
                     <h2 className="create_date_title">Дата создания:</h2>
                     {/*<h3 className="create_date_content">{settings.created_at}</h3>*/}
                     <h2 className="deadline_title">Сроки:</h2>
+                    <input className="form-control" type="date" id="taskTitle"
+                           placeholder="Введите срок выполнения"/>
                     {/*<h3 className="deadline_content">{settings.deadline}</h3>*/}
                     <h1 className="descTitle">Описание задачи:</h1>
+                    <textarea className="createDesc" id="mesText"
+                              placeholder="Введите подробности этой задачи"/>
                     {/*<p className="descDesc">{settings.desc}</p>*/}
                     <NavLink to={`/tasks/${teamId}`} className="btn back__btn"></NavLink>
                     <button onClick={handlePopupClick} className="btn task-rep-btn">Отправить отчет</button>

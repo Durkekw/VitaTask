@@ -32,6 +32,9 @@ func main() {
 	app.Get("/unteamed-users", handlers.GetUnteamedUsersHandler(db))
 	app.Post("/settings/:user_id", handlers.SettingsHandler(db))
 	app.Post("/create-task", handlers.CreateTaskHandler(db))
+	app.Get("/tasks", handlers.GetTasksHandler(db))
+	app.Post("/task-comment", handlers.AddTaskCommentHandler(db))
+	app.Get("/task/:id/comments", handlers.GetTaskCommentsHandler(db))
 
 	log.Println("Server started on :8080")
 	log.Fatal(app.Listen(":8080"))

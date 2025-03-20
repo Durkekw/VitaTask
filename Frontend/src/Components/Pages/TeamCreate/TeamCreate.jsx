@@ -6,7 +6,7 @@ import { createTeam } from "../../../../redux/slices/teamSlice.js";
 export default function TeamCreate() {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // Хук для навигации
-    const { user } = useSelector((state) => state.auth); // Получаем данные пользователя из authSlice
+    const { user } = useSelector((state) => state.user); // Получаем данные пользователя из authSlice
     const [teamName, setTeamName] = useState("");
     const { teamId } = useSelector((state) => state.team); // Получаем teamId из состояния
 

@@ -67,7 +67,6 @@ p{
 }
 
 .back__btn{
-  position: fixed;
   display: flex;
   border-radius: 20px;
   width: 50px;

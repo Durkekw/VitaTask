@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {loginUser, updateUserTeamId} from "./userSlice.js";
+import {loginUser, updateUserTeamId, updateUserRoleId} from "./userSlice.js";
 
 // Асинхронные действия (thunks)
 export const createTeam = createAsyncThunk(
@@ -16,10 +16,12 @@ export const createTeam = createAsyncThunk(
             const user = JSON.parse(localStorage.getItem("user"));
             if (user) {
                 user.team_id = response.data.teamId; // Обновляем team_id у пользователя
+                user.role_id = response.data.roleId;
                 localStorage.setItem("user", JSON.stringify(user)); // Сохраняем обновленные данные пользователя
 
                 // Вызываем действие для обновления team_id в authSlice
                 dispatch(updateUserTeamId(response.data.teamId));
+                dispatch(updateUserRoleId(response.data.roleId));
             }
 
             return response.data; // Возвращаем данные команды
@@ -161,6 +163,7 @@ const teamSlice = createSlice({
 
                 // Обновляем teamId в состоянии Redux
                 state.teamId = action.payload.teamId;
+                state.roleId = action.payload.roleId;
 
                 // Сохраняем teamId в localStorage
                 localStorage.setItem("teamId", JSON.stringify(action.payload.teamId));

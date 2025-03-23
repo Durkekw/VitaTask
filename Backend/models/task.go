@@ -9,4 +9,6 @@ type Task struct {
 	CreatedAt  string `json:"created_at"`
 	TeamId     int    `json:"team_id"`
 	UserID     int    `json:"user_id"`
+	Name       string `json:"name"`
+	Surname    string `json:"surname"`
 }

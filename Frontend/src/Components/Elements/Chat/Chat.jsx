@@ -1,17 +1,20 @@
-import "./style.css"
-import {NavLink} from "react-router-dom";
+import "./style.css";
+import { NavLink } from "react-router-dom";
+import logo from "../../../img/logo/Group.svg";
 
-export default function Chat(props) {
+export default function Chat({ chatId, receiverId, receiverName, receiverSurname }) {
     return (
         <div className="chat-container">
             <div className="chatter">
-                <NavLink to={`/profile/${props.index}`}>
-                <img className="chat-img" src={props.img}/>
+                <NavLink to={`/profile/${receiverId}`}>
+                    <img className="chat-img" src={logo} alt="profile" />
                 </NavLink>
-                <NavLink to={`/im/${props.index}`}>
-                <p className="chat__name">{props.surname} {props.name}</p>
+                <NavLink to={`/im/${chatId}`}>
+                    <p className="chat__name">
+                        {receiverSurname || "Фамилия не указана"} {receiverName || "Имя не указано"}
+                    </p>
                 </NavLink>
             </div>
         </div>
-    )
+    );
 }

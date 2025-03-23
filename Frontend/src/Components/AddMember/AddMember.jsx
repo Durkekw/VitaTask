@@ -42,6 +42,7 @@ const AddMember = React.memo(({ active, setActive }) => {
                     unteamedUsers.map((user) => (
                         <Unteamed
                             key={user.user_id}
+                            userId={user.user_id}
                             name={user.name}
                             surname={user.surname}
                             onAdd={() => handleAddUser(user)} // Передаем функцию добавления

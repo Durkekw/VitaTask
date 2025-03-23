@@ -9,13 +9,14 @@ import ScrollToTop from "./utils/scrollToTop.jsx";
 import Tasks from "./Components/Pages/Tasks/Tasks.jsx";
 import Settings from "./Components/Pages/Settings/Settings.jsx";
 import Messages from "./Components/Messages/Messages.jsx";
-import TSettings from "./Components/TSettings/TSettings.jsx";
+import TSettingsEmployee from "./Components/TSettings/TSettingsEmployee.jsx";
 import CreateT from "./Components/TaskCreate/CreateT.jsx";
 import Team from "./Components/Pages/Team/Team.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
 import {loadUser} from "../redux/slices/userSlice.js";
 import {useDispatch} from "react-redux";
 import TeamCreate from "./Components/Pages/TeamCreate/TeamCreate.jsx";
+import TSettingsManager from "./Components/TSettings/TSettingsManager.jsx";
 
 
 function App() {
@@ -32,11 +33,12 @@ function App() {
               <Nav/>
               <Routes>
                   <Route path="/" element={<Main/>}/>
-                  <Route path="/messenger/:userId" element={<Messenger/>}/>
+                  <Route path="/messenger" element={<Messenger/>}/>
                   <Route path="/tasks/:teamId" element={<Tasks/>}/>
                   <Route path="/settings" element={<Settings/>} />
                   <Route path="/im/:id" element={<Messages/>}/>
-                  <Route path="/task-settings" element={<TSettings/>}/>
+                  <Route path="/task-settings/manager/:taskId" element={<TSettingsManager/>}/>
+                  <Route path="/task-settings/employee/:taskId" element={<TSettingsEmployee/>}/>
                   <Route path="/task-change" element={<CreateT/>}/>
                   <Route path="/team/:teamId" element={<Team/>}/>
                   <Route path="/profile/:userId" element={<Profile/>}/>

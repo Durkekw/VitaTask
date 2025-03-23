@@ -84,9 +84,12 @@ export default function Team() {
                 })
                 .catch((error) => {
                     console.error("Ошибка при загрузке участников команды:", error);
+                    // Отображаем ошибку пользователю
+                    alert("Ошибка при загрузке участников команды: " + error.message);
                 });
         } else {
             console.error("teamId is missing or user is not authenticated");
+            alert("Команда не выбрана или пользователь не аутентифицирован");
         }
     }, [user, dispatch]);
 

@@ -73,7 +73,7 @@ func CreateTeamHandler(db *sql.DB) fiber.Handler {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		return c.Status(fiber.StatusCreated).JSON(fiber.Map{"teamId": teamID})
+		return c.Status(fiber.StatusCreated).JSON(fiber.Map{"teamId": teamID, "roleId": 1, "teamName": request.TeamName})
 	}
 }
 
@@ -158,7 +158,7 @@ func GetTeamMembersHandler(db *sql.DB) fiber.Handler {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid teamId"})
 		}
 
-		log.Println("Fetching team members for team ID:", teamID) // Логируем teamID
+		log.Println("Fetching team members for team ID:", teamID)
 
 		rows, err := db.Query(`
             SELECT u.user_id, u.name, u.surname, u.email, u.role_id, u.team_id 
@@ -166,7 +166,7 @@ func GetTeamMembersHandler(db *sql.DB) fiber.Handler {
             JOIN "ViTask"."user_team" ut ON u.user_id = ut.user_id
             WHERE ut.team_id = $1`, teamID)
 		if err != nil {
-			log.Println("Error fetching team members:", err) // Логируем ошибку
+			log.Println("Error fetching team members:", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}
 		defer rows.Close()
@@ -176,16 +176,16 @@ func GetTeamMembersHandler(db *sql.DB) fiber.Handler {
 			var member models.User
 			err := rows.Scan(&member.UserID, &member.Name, &member.Surname, &member.Email, &member.RoleID, &member.TeamID)
 			if err != nil {
-				log.Println("Error scanning row:", err) // Логируем ошибку сканирования
+				log.Println("Error scanning row:", err)
 				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 			}
 			members = append(members, member)
 		}
 
 		if len(members) == 0 {
-			log.Println("No members found for team ID:", teamID) // Логируем, если данных нет
+			log.Println("No members found for team ID:", teamID)
 		} else {
-			log.Println("Fetched team members:", members) // Логируем данные
+			log.Println("Fetched team members:", members)
 		}
 
 		return c.Status(fiber.StatusOK).JSON(members)

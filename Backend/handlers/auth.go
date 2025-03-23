@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
+	"strconv"
 )
 
 func RegisterHandler(db *sql.DB) fiber.Handler {
@@ -87,5 +88,24 @@ func LoginHandler(db *sql.DB) fiber.Handler {
 
 		// Возвращаем данные пользователя
 		return c.Status(fiber.StatusOK).JSON(storedUser)
+	}
+}
+
+func GetUserByIDHandler(db *sql.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		userID, err := strconv.Atoi(c.Params("userId"))
+		if err != nil || userID <= 0 {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
+		}
+
+		user, err := database.GetUserByID(db, userID)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+			}
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(user)
 	}
 }

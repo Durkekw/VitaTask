@@ -49,6 +49,18 @@
     width: 35px;
 }
 
+.descSpace{
+    padding:20px;
+    min-height: 300px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 500px;
+    overflow: auto;
+    text-wrap: wrap;
+    background-color: #DBD7D2;
+    border-radius: 50px;
+}
+
 .disSpace{
     min-height: 500px;
     width: 600px;
@@ -106,12 +118,10 @@
 
 .task-rep-btn{
     background-color: #dcb996;
-    height: 80px;
-    width: 200px;
-    position: fixed;
-    right: 22%;
-    top: 120px;
-    font-size: 25px;
+    height: 100px;
+    width: 220px;
+    margin-top: 20px;
+    font-size: 27px;
 }
 
 .create_date_title{
@@ -120,4 +130,24 @@
 
 .deadline_title{
     margin-top: 10px;
+}
+
+.TSettings_btn-title{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    padding-top: 3%;
+}
+
+.task_btn{
+}
+
+.tSettings__title{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.sett_btns{
+    display: flex;
+    justify-content: space-around;
 }

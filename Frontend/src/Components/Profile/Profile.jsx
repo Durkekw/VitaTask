@@ -88,7 +88,10 @@ export default function Profile() {
                     throw new Error("Ошибка при создании чата");
                 }
 
+
+
                 const data = await response.json();
+                dispatch(fetchChats(currentUser.user_id));
                 console.log("Response from server:", data); // Логируем ответ от сервера
                 window.location.href = `/im/${data.chat_id}`;
             }

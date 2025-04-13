@@ -8,7 +8,8 @@ export default function LoginForm({ active, setActive }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.user);
+    const { loading } = useSelector((state) => state.user);
+    const [error, setError] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,6 +21,7 @@ export default function LoginForm({ active, setActive }) {
                 setPassword("");
             })
             .catch((err) => {
+                setError(err);
                 console.error("Login failed:", err);
             });
     };
@@ -32,7 +34,7 @@ export default function LoginForm({ active, setActive }) {
                         <img className="close__img" src={close} />
                     </button>
                     <h1>Вход</h1>
-                    {error && <p className="error">{error}</p>}
+                    {error && <p className="error">{error.error}</p>}
                     <div className="form-group">
                         <input
                             className="form-control"

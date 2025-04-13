@@ -45,9 +45,9 @@ export default function Tasks() {
                         <div>Нет задач для отображения</div>
                     )}
                 </ul>
-                <NavLink to="/task-change">
+                {user.role_id === 1 && <NavLink to="/task-change">
                     <button className="fixed-btn btn btn-primary">Добавить задачу</button>
-                </NavLink>
+                </NavLink>}
             </div>
         </div>
     );

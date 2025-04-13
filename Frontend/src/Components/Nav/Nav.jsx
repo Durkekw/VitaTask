@@ -126,7 +126,6 @@ export default function Nav() {
                                 </NavLink>
                             </div>
                         )}
-                        <button onClick={isUserInTeam}>проверка</button>
                         <div className="side__btn">
                             <NavLink
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}

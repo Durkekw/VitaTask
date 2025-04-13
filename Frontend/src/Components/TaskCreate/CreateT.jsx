@@ -54,7 +54,6 @@ export default function CreateT() {
 
         try {
             await dispatch(createTaskAndFetch(taskData)).unwrap();
-            alert("Задача успешно создана!");
 
             // Очистка формы
             setTaskTitle("");

@@ -27,7 +27,6 @@ const AddMember = React.memo(({ active, setActive }) => {
             await dispatch(addUserToTeam({ userId: user.user_id, teamId })).unwrap();
             dispatch(fetchUnteamedUsers()); // Обновляем список
 
-            alert(`Пользователь ${user.name} успешно добавлен в команду!`);
         } catch (error) {
             console.error("Ошибка при добавлении пользователя в команду:", error);
             alert("Не удалось добавить пользователя в команду.");

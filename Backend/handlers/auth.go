@@ -70,7 +70,9 @@ func LoginHandler(db *sql.DB) fiber.Handler {
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "User not found"})
 		}
-
+		if storedUser == nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "User not found"})
+		}
 		// Проверяем пароль
 		err = bcrypt.CompareHashAndPassword([]byte(storedUser.Password), []byte(user.Password))
 		if err != nil {

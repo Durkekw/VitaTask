@@ -21,7 +21,6 @@ export default function TeamCreate() {
         dispatch(createTeam({ teamName, userId: user.user_id }))
             .unwrap()
             .then((response) => {
-                alert("Команда успешно создана!");
                 navigate(`/team/${response.teamId}`);
             })
             .catch((error) => {

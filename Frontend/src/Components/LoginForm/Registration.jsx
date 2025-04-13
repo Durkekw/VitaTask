@@ -10,7 +10,9 @@ export default function Registration({ active, setActive }) {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.user);
+    const { loading } = useSelector((state) => state.user);
+    const [error, setError] = useState('')
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,6 +26,7 @@ export default function Registration({ active, setActive }) {
                 setSurname("");
             })
             .catch((err) => {
+                setError(err);
                 console.error("Registration failed:", err);
             });
     };
@@ -36,7 +39,7 @@ export default function Registration({ active, setActive }) {
                         <img className="close__img" src={close}/>
                     </button>
                     <h1>Регистрация</h1>
-                    {error && <p className="error">{error}</p>}
+                    {error && <p className="error">{error.error}</p>}
                     <div className="form-group">
                         <input
                             className="form-control item"

@@ -158,11 +158,11 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.user = action.payload;
                 localStorage.setItem("user", JSON.stringify(action.payload));
-                    // window.location = 'http://localhost:5173/settings';
+                // window.location = 'http://localhost:5173/settings';
             })
             .addCase(updateUser.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
+                state.loading = false;
+                state.error = action.payload;
             })
             .addCase(fetchUserById.pending, (state) => {
                 state.loading = true;

@@ -1,16 +1,308 @@
-.taskTitle{
-
+.task-create-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 1rem;
 }
 
-.createDesc{
-    margin-top: 10px;
-    word-break: break-all;
-    resize: none;
-    width: 40%;
-    height: 100px;
-    padding-left: 20px;
-    background-color:  white;
-    color: black;
-    border-radius: 10px;
-    font-size: 20px;
+.task-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.back-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1;
+}
+
+.back-button:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+}
+
+.back-icon {
+    width: 12px;
+    height: 12px;
+    border-left: 3px solid #ef4444;
+    border-bottom: 3px solid #ef4444;
+    transform: rotate(45deg);
+    display: block;
+    margin: 0 auto;
+}
+
+.task-form-container {
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-section {
+    background: rgba(15, 23, 42, 0.8);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    color: #cbd5e1;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.required {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    height: 50px;
+    padding: 0 1rem;
+    background: rgba(30, 41, 59, 0.8);
+    color: #e2e8f0;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: rgba(30, 41, 59, 0.9);
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+}
+
+.form-control.textarea {
+    height: auto;
+    min-height: 120px;
+    padding: 1rem;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.form-hint {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.cancel-btn {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: #e2e8f0;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
+    color: #e2e8f0;
+}
+
+.create-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 1.25rem 3rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-width: 220px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.create-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.create-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.btn-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .task-create-container {
+        padding: 1rem;
+    }
+    
+    .task-form-container {
+        padding: 1.5rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .form-control {
+        height: 45px;
+        font-size: 14px;
+    }
+    
+    .form-control.textarea {
+        min-height: 100px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .cancel-btn,
+    .create-btn {
+        width: 100%;
+        max-width: 300px;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .back-button {
+        width: 35px;
+        height: 35px;
+        margin-right: 0.75rem;
+    }
+    
+    .back-icon {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .task-create-container {
+        padding: 0.5rem;
+    }
+    
+    .task-form-container {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+    
+    .form-section {
+        padding: 0.75rem;
+        border-radius: 12px;
+    }
+    
+    .form-control {
+        height: 40px;
+        font-size: 14px;
+        padding: 0 0.75rem;
+    }
+    
+    .form-control.textarea {
+        min-height: 80px;
+        padding: 0.75rem;
+    }
+    
+    .cancel-btn,
+    .create-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+    }
 }

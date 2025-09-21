@@ -1,24 +1,26 @@
 import "./style.css"
 import logo from "../../../img/logo/Group.svg";
-import remove_btn from "../../../img/png-klev-club-bewz-p-krestik-chernii-png-28.png";
 import React from "react";
-import adding from "../../../img/pngwing.com (18).png";
 import {NavLink} from "react-router-dom";
 
 export default React.memo(function Unteamed(props) {
     return (
-        <div className="chat-container">
-            <div className="teammate">
-                <NavLink to={`/profile/${props.userId}`}>
-                <div className="team-links">
-                        <img className="chat-img" src={logo} alt="User" />
-                        <p className="chat__name">{props.surname} {props.name}</p>
-                </div>
+        <div className="unteamed-card">
+            <div className="user-info">
+                <NavLink to={`/profile/${props.userId}`} className="user-link">
+                    <div className="user-avatar">
+                        <img className="avatar-img" src={logo} alt="User" />
+                    </div>
+                    <div className="user-details">
+                        <h3 className="user-name">{props.surname} {props.name}</h3>
+                        {props.email && <p className="user-email">{props.email}</p>}
+                    </div>
                 </NavLink>
-                <button onClick={props.onAdd}>
-                    <img src={adding} className="add_btn" alt="Add User" />
-                </button>
             </div>
+            <button className="add-user-btn" onClick={props.onAdd}>
+                <span className="add-icon">+</span>
+                <span className="add-text">Добавить</span>
+            </button>
         </div>
     );
 });

@@ -18,29 +18,60 @@ export default function Messenger() {
     }, [dispatch, userId]);
 
     if (loading) {
-        return <div>Загрузка чатов...</div>;
+        return (
+            <div className="container">
+                <div className="messenger-container">
+                    <div className="loading-container">
+                        <div className="spinner"></div>
+                        <p>Загрузка чатов...</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (error) {
-        return <div>Ошибка: {error.message || "Неизвестная ошибка"}</div>;
+        return (
+            <div className="container">
+                <div className="messenger-container">
+                    <div className="error-container">
+                        <h2>Ошибка загрузки</h2>
+                        <p>{error.message || "Неизвестная ошибка"}</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (!Array.isArray(chats) || chats.length === 0) {
-        return <div>Чаты не найдены</div>;
+        return (
+            <div className="container">
+                <div className="messenger-container">
+                    <div className="empty-chats">
+                        <div className="empty-icon">💬</div>
+                        <p>Нет активных чатов</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className="messenger">
-            <div className="container">
-                {chats.map((chat) => (
-                    <Chat
-                        key={chat.chat_id}
-                        chatId={chat.chat_id}
-                        receiverId={chat.user_id}
-                        receiverName={chat.name}
-                        receiverSurname={chat.surname}
-                    />
-                ))}
+        <div className="container">
+            <div className="messenger-container">
+                <div className="chats-list">
+                    {chats.map((chat) => (
+                        <Chat
+                            key={chat.chat_id}
+                            chatId={chat.chat_id}
+                            receiverId={chat.user_id}
+                            receiverName={chat.name}
+                            receiverSurname={chat.surname}
+                            lastMessage={chat.last_message}
+                            lastMessageTime={chat.last_message_time}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );

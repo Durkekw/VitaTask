@@ -1,29 +1,199 @@
-.teammate{
-    display:flex;
-    padding: 20px 0 15px 20px;
-    justify-content: space-between;
-    height: 100%;
+.teammate-card {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.team-links{
+.teammate-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+.teammate-card:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-link {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
 }
 
-.btn_delete_member{
-    width: 40px;
-    margin-right: 20px;
+.user-link:hover {
+    transform: translateX(5px);
 }
 
-.btn_delete_member-invisible{
+.user-link.current-user {
+    opacity: 0.8;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+}
+
+.user-avatar.current-user-avatar {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+}
+
+.user-link:hover .user-avatar {
+    transform: scale(1.05);
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+.avatar-img {
+    width: 35px;
+    height: 35px;
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 0 0 0.25rem 0;
+}
+
+.user-email {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin: 0 0 0.5rem 0;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.current-user-role {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.delete-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.delete-btn-hidden {
+    opacity: 0;
     transform: scale(0);
+    pointer-events: none;
 }
 
-.delete-btn{
-    background-color: #BA0021;
-    margin-right: 5%;
-    display: flex;
-    height: 5vh;
-    width: 3vw;
-    border-radius: 100%;
+.delete-btn-visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.delete-icon {
+    font-size: 1rem;
+}
+
+.delete-text {
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .teammate-card {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .user-link {
+        justify-content: flex-start;
+    }
+    
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .avatar-img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .user-name {
+        font-size: 1rem;
+    }
+    
+    .user-email {
+        font-size: 0.8rem;
+    }
+    
+    .user-role {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    .delete-btn {
+        align-self: flex-end;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
 }

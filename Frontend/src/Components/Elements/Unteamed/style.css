@@ -1,10 +1,126 @@
-.add_btn{
-    width: 60px;
-    margin-right: 30px;
+.unteamed-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
 }
 
+.unteamed-card:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
-.member-adding_text{
-    padding: 10px;
-    font-size: 40px;
+.user-info {
+    flex: 1;
+}
+
+.user-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(59, 130, 246, 0.2);
+}
+
+.avatar-img {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 0 0 0.25rem 0;
+}
+
+.user-email {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.add-user-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.add-user-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.add-icon {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.add-text {
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .unteamed-card {
+        padding: 0.75rem;
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .avatar-img {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .user-name {
+        font-size: 0.9rem;
+    }
+    
+    .user-email {
+        font-size: 0.8rem;
+    }
+    
+    .add-user-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
 }

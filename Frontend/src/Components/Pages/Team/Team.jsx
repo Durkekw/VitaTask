@@ -44,9 +44,9 @@ export default function Team() {
             });
     };
 
+
     const handleDeleteUser = async (user) => {
         try {
-
             const teamId = JSON.parse(localStorage.getItem("teamId"));
 
             if (!teamId) {
@@ -62,9 +62,14 @@ export default function Team() {
                 return;
             }
 
-            await dispatch(deleteUserFromTeam({ userId: user.user_id, teamId })).unwrap(); // Обновляем список
+            await dispatch(deleteUserFromTeam({ userId: user.user_id, teamId })).unwrap();
+            
+            // Обновляем список участников команды после удаления
+            dispatch(fetchTeamMembers(teamId));
+            
+            // Обновляем список незарегистрированных пользователей
+            dispatch(fetchUnteamedUsers());
 
-            // alert(`Пользователь ${user.name} удален из команды`);
         } catch (error) {
             console.error("Ошибка при удалении пользователя из команды:", error);
             alert("Не удалось удалить пользователя из команды.");
@@ -89,7 +94,6 @@ export default function Team() {
                 });
         } else {
             console.error("teamId is missing or user is not authenticated");
-            alert("Команда не выбрана или пользователь не аутентифицирован");
         }
     }, [user, dispatch]);
 
@@ -110,33 +114,35 @@ export default function Team() {
     }
 
     return (
-        <div className="container">
-            <div className="team-leaving">
-                {<h1 className={user.team ? "team-title active_Ttitle" : "team-title"}>Название команды: "{user.team?.team_name}"</h1>}
-                <button onClick={handleLeaveFTeam} className="btn team-btn">Выйти из команды</button>
+        <>
+            <div className="container">
+                <div className="team-leaving">
+                    {<h1 className={user.team ? "team-title active_Ttitle" : "team-title"}>Название команды: "{user.team?.team_name}"</h1>}
+                    <button onClick={handleLeaveFTeam} className="btn team-btn">Выйти из команды</button>
+                </div>
+                {user.role_id === 1 && <div className="team_btns">
+                    <button onClick={handleActive} className="btn team-btn">Добавить</button>
+                    <button onClick={handleClick} className="btn team-btn">
+                        Удалить
+                    </button>
+                </div>}
+                {members.map((member, index) => (
+                    <Teammate
+                        user_id={member.user_id} // Идентификатор участника команды
+                        currentUserId={user.user_id}
+                        key={member.user_id}
+                        surname={member.surname}
+                        name={member.name}
+                        email={member.email}
+                        role={member.role_id.Int64}
+                        roleId={member.role_id}
+                        img={"https://via.placeholder.com/50"}
+                        showBtn={showBtn}
+                        onDelete={ () => {handleDeleteUser(member)}}
+                    />
+                ))}
             </div>
-            {user.role_id === 1 && <div className="team_btns">
-                <button onClick={handleActive} className="btn team-btn">Добавить</button>
-                <button onClick={handleClick} className="btn team-btn">
-                    Удалить
-                </button>
-            </div>}
-            {members.map((member, index) => (
-                <Teammate
-                    user_id={member.user_id} // Идентификатор участника команды
-                    currentUserId={user.user_id}
-                    key={member.user_id}
-                    surname={member.surname}
-                    name={member.name}
-                    email={member.email}
-                    role={member.role_id.Int64}
-                    roleId={member.role_id}
-                    img={"https://via.placeholder.com/50"}
-                    showBtn={showBtn}
-                    onDelete={ () => {handleDeleteUser(member)}}
-                />
-            ))}
             <AddMember active={addingActive} setActive={setAddingActive} />
-        </div>
+        </>
     );
 }

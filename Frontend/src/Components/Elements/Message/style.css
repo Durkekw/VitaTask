@@ -1,49 +1,99 @@
-.message{
-    border-bottom-left-radius: 90px;
-    border-top-left-radius: 90px;
-    border-top-right-radius: 90px;
+.message {
     display: flex;
+    margin-bottom: 0.5rem;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message-current-user {
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+.message-other-user {
+    align-self: flex-start;
+    justify-content: flex-start;
+}
+
+.message-content {
+    position: relative;
+    padding: 0.75rem 1rem;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.message-current-user .message-content {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+.message-other-user .message-content {
+    background: rgba(30, 41, 59, 0.8);
+    color: #e2e8f0;
+    border-bottom-left-radius: 6px;
+}
+
+.message-text {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.message-time {
+    margin: 0;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    text-align: right;
+    font-weight: 500;
+}
+
+.message-other-user .message-time {
     text-align: left;
-    background-color: white;
-    min-width: 200px;
-    max-width: 750px;
-    min-height: 60px;
-    margin-right: 10px;
-    /*float: right;*/
-    margin-top: 10px;
-    /*padding-left: 20px;*/
-    padding:20px 20px 20px 0;
-    align-items: center;
-    justify-content: space-between;
-    word-wrap: break-word; /* Позволяет переносить длинные слова на новую строку */
 }
 
-.message p{
-    margin-left: 30px;
-    word-wrap: break-word
+/* Hover effects */
+.message:hover .message-content {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.mes_reverse{
-    transform: scaleX(-1);
+.message-current-user:hover .message-content {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-.message-ny{
-    display: flex;
-    transform: scaleX(-1);
-    margin-left: 5px;
-    margin-right: auto;
+.message-other-user:hover .message-content {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.message-ny p{
-    margin-left: auto;
-}
-
-.mes_time{
-    font-size: 12px;
-    position: sticky;
-    margin-top: auto;
-}
-
-.message-ny .mes_time{
-    transform: scaleX(-1);
+/* Responsive Design */
+@media (max-width: 768px) {
+    .message {
+        max-width: 85%;
+    }
+    
+    .message-content {
+        padding: 0.6rem 0.8rem;
+        border-radius: 16px;
+    }
+    
+    .message-current-user .message-content {
+        border-bottom-right-radius: 4px;
+    }
+    
+    .message-other-user .message-content {
+        border-bottom-left-radius: 4px;
+    }
+    
+    .message-text {
+        font-size: 0.9rem;
+    }
+    
+    .message-time {
+        font-size: 0.7rem;
+    }
 }

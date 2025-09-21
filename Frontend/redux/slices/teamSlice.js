@@ -185,7 +185,7 @@ const teamSlice = createSlice({
             })
             .addCase(addUserToTeam.fulfilled, (state, action) => {
                 state.loading = false;
-                // Обновляем команду, если нужно
+                // Список участников будет обновлен через fetchTeamMembers
             })
             .addCase(addUserToTeam.rejected, (state, action) => {
                 state.loading = false;
@@ -228,7 +228,7 @@ const teamSlice = createSlice({
             })
             .addCase(deleteUserFromTeam.fulfilled, (state, action) => {
                 state.loading = false;
-                // Обновляем команду, если нужно
+                // Список участников будет обновлен через fetchTeamMembers
             })
             .addCase(deleteUserFromTeam.rejected, (state, action) => {
                 state.loading = false;

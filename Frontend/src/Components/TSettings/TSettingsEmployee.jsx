@@ -1,15 +1,14 @@
 import "./style.css"
-import {NavLink, useNavigate, useParams} from "react-router-dom";
-import {chats} from "../../helpers/chatList.jsx";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import send from "../../img/free-icon-send-button-60525.png";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Message from "../Elements/Message/Message.jsx";
 import Report from "../Report/Report.jsx";
 import { useSelector } from "react-redux";
-import {format} from "date-fns"; // Импортируем useSelector
+import { format } from "date-fns";
 
 export default function TSettingsEmployee() {
-    const { taskId } = useParams(); // Получаем taskId из URL
+    const { taskId } = useParams();
     const navigate = useNavigate();
     const tasks = useSelector((state) => state.task.tasks);
     const taskData = tasks.find((task) => task.task_id === parseInt(taskId, 10));
@@ -18,83 +17,150 @@ export default function TSettingsEmployee() {
     const [messages, setMessages] = useState([]);
     const [reportActive, setReportActive] = useState(false);
     const teamId = useSelector((state) => state.team.teamId);
-    const { members } = useSelector((state) => state.team);
 
-    // Если задача не найдена, перенаправляем на страницу задач
     useEffect(() => {
         if (!taskData) {
             navigate(`/tasks/${teamId}`);
         }
     }, [taskData, navigate, teamId]);
 
-    // Если taskData отсутствует, возвращаем null (чтобы избежать рендеринга до завершения навигации)
     if (!taskData) {
-        return null;
+        return (
+            <div className="container">
+                <div className="task-settings-container">
+                    <div className="loading-container">
+                        <div className="spinner"></div>
+                        <p>Загрузка задачи...</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
+
+    const handleTextChange = (event) => {
+        setTextValue(event.target.value);
+    };
+
+    const handleButtonClick = () => {
+        if (textValue.trim()) {
+            setMessages([...messages, textValue]);
+            setTextValue('');
+        }
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleButtonClick();
+        }
+    };
 
     return (
         <div className="container">
-            <div className="tSettings">
-                <div className="TSettings_btn-title">
-                    <NavLink to={`/tasks/${teamId}`} className="btn back__btn task_btn"></NavLink>
-                    <h1 className="page__title tSettings__title">Task Info</h1>
+            <div className="task-settings-container">
+                <div className="task-header">
+                    <NavLink to={`/tasks/${teamId}`} className="back-button">
+                        <div className="back-icon"></div>
+                    </NavLink>
+                    <h1 className="page__title">Информация о задаче</h1>
                 </div>
 
-                <h1 className="fTitle">Название задачи: <br/> {taskData.task_title}</h1> {/* Используем taskData */}
-                <h1 className="respTitle">Ответственный:</h1>
-                <h2 className="respDesc">
-                    {taskData.surname} {taskData.name} {/* Используем taskData */}
-                </h2>
-                <h2 className="create_date_title">Дата создания:</h2>
-                <h3 className="create_date_content"> {format(new Date(taskData.created_at), 'dd.MM.yyyy')}</h3>
-                <h2 className="deadline_title">Сроки:</h2>
-                <h3>{format(new Date(taskData.deadline), 'dd.MM.yyyy')}</h3>
-                <h1 className="descTitle">Описание задачи:</h1>
-                <div className="descSpace">
-                    {taskData.task_description}
-                </div>
-                <h1 className="descTitle">Статус</h1>
-                <div className="statusbar tStatus">
-                    <p className="statusbar__info">{taskData.task_status || "В процессе"}</p> {/* Используем taskData */}
-                    <div className="statusbar-yellow tset-statusbar-col"></div>
-                </div>
-                <button onClick={() => setReportActive(true)} className="btn task-rep-btn">Отправить отчет</button>
-                <h1 className="disc-title">Обсуждение</h1>
-                <div className="discussion">
-                    <div className="disSpace">
-                        {messages.map((message, index) => (
-                            <Message key={index} message={message}/>
-                        ))}
+                <div className="task-info">
+                    <div className="info-section">
+                        <h3 className="section-title">Основная информация</h3>
+                        
+                        <div className="info-card">
+                            <div className="info-item">
+                                <span className="info-label">Название задачи</span>
+                                <span className="info-value">{taskData.task_title}</span>
+                            </div>
+                            
+                            <div className="info-item">
+                                <span className="info-label">Ответственный</span>
+                                <span className="info-value">{taskData.surname} {taskData.name}</span>
+                            </div>
+                            
+                            <div className="info-row">
+                                <div className="info-item">
+                                    <span className="info-label">Дата создания</span>
+                                    <span className="info-value">
+                                        {format(new Date(taskData.created_at), 'dd.MM.yyyy')}
+                                    </span>
+                                </div>
+                                
+                                <div className="info-item">
+                                    <span className="info-label">Срок выполнения</span>
+                                    <span className="info-value">
+                                        {format(new Date(taskData.deadline), 'dd.MM.yyyy')}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="add-disc">
-                        <div method="post" className="disInput">
-                            <textarea
-                                className="dis__type"
-                                value={textValue}
-                                onChange={(e) => setTextValue(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        setMessages([...messages, textValue]);
-                                        setTextValue('');
-                                    }
-                                }}
-                                id="disText"
-                                placeholder="Введите ваше сообщение"
-                            />
-                            <button onClick={() => {
-                                if (textValue.trim()) {
-                                    setMessages([...messages, textValue]);
-                                    setTextValue('');
-                                }
-                            }}>
-                                <img className="dis__send" src={send} alt=""/>
-                            </button>
+
+                    <div className="info-section">
+                        <h3 className="section-title">Описание и статус</h3>
+                        
+                        <div className="info-card">
+                            <div className="info-item">
+                                <span className="info-label">Описание задачи</span>
+                                <div className="info-description">
+                                    {taskData.task_description || "Описание не указано"}
+                                </div>
+                            </div>
+                            
+                            <div className="info-item">
+                                <span className="info-label">Статус</span>
+                                <div className="status-display">
+                                    <span className="status-text">{taskData.task_status || "В процессе"}</span>
+                                    <div className="status-indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="action-section">
+                        <button 
+                            onClick={() => setReportActive(true)} 
+                            className="btn report-btn"
+                        >
+                            <span className="btn-icon">📊</span>
+                            <span>Отправить отчет</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div className="discussion-section">
+                    <h3 className="section-title">Обсуждение</h3>
+                    <div className="discussion-container">
+                        <div className="messages-area">
+                            {messages.map((message, index) => (
+                                <Message key={index} message={message} isCurrentUser={true} />
+                            ))}
+                        </div>
+                        <div className="message-input">
+                            <div className="input-container">
+                                <textarea
+                                    className="message-textarea"
+                                    value={textValue}
+                                    onChange={handleTextChange}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="Введите ваше сообщение..."
+                                    rows="1"
+                                />
+                                <button 
+                                    className="send-button" 
+                                    onClick={handleButtonClick}
+                                    disabled={!textValue.trim()}
+                                >
+                                    <img className="send-icon" src={send} alt="Отправить" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Report setActive={setReportActive} active={reportActive}/>
+            <Report setActive={setReportActive} active={reportActive} />
         </div>
     );
 }

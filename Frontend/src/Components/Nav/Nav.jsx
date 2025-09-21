@@ -60,11 +60,11 @@ export default function Nav() {
                     </li>
                     {!isAuthenticated ? (
                         <li className="top-nav__item">
-                            <button className="nav__btn side__btn">
-                                <a onClick={() => setLoginActive(true)}>Войти</a>
+                            <button className="nav__btn" onClick={() => setLoginActive(true)}>
+                                Войти
                             </button>
-                            <button className="nav__btn side__btn">
-                                <a onClick={() => setRegActive(true)}>Регистрация</a>
+                            <button className="nav__btn" onClick={() => setRegActive(true)}>
+                                Регистрация
                             </button>
                         </li>
                     ) : (
@@ -73,8 +73,8 @@ export default function Nav() {
                                 <h1>{user.surname} </h1>
                                 <h1>{user.name}</h1>
                             </div>
-                            <button className="nav__btn side__btn">
-                            <a onClick={handleLogout}>Выйти</a>
+                            <button className="nav__btn" onClick={handleLogout}>
+                                Выйти
                             </button>
                         </li>
                     )}
@@ -88,7 +88,8 @@ export default function Nav() {
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                 to="/"
                             >
-                                Главная
+                                <span className="nav-icon">🏠</span>
+                                <span className="nav-text">Главная</span>
                             </NavLink>
                         </div>
                         <div className="side__btn">
@@ -96,7 +97,8 @@ export default function Nav() {
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                 to="/messenger"
                             >
-                                Мессенджер
+                                <span className="nav-icon">💬</span>
+                                <span className="nav-text">Мессенджер</span>
                             </NavLink>
                         </div>
                         {hasTeamId() && <div className="side__btn">
@@ -104,25 +106,28 @@ export default function Nav() {
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                 to={`/tasks/${teamId}`}
                             >
-                                Задачи
+                                <span className="nav-icon">📋</span>
+                                <span className="nav-text">Задачи</span>
                             </NavLink>
                         </div>}
                         { hasTeamId() ? (
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
-                                    to={`/team/${teamId}`} // Ссылка на страницу команды
+                                    to={`/team/${teamId}`}
                                 >
-                                    Ваша команда
+                                    <span className="nav-icon">👥</span>
+                                    <span className="nav-text">Ваша команда</span>
                                 </NavLink>
                             </div>
-                        ) : ( // Если team_id не существует или Valid = false
+                        ) : (
                             <div className="side__btn">
                                 <NavLink
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                     to="/teamcr"
                                 >
-                                    Создать команду
+                                    <span className="nav-icon">➕</span>
+                                    <span className="nav-text">Создать команду</span>
                                 </NavLink>
                             </div>
                         )}
@@ -131,7 +136,8 @@ export default function Nav() {
                                 className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                 to="/settings"
                             >
-                                Настройки
+                                <span className="nav-icon">⚙️</span>
+                                <span className="nav-text">Настройки</span>
                             </NavLink>
                         </div>
                     </div>

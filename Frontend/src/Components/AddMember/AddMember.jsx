@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserToTeam, fetchUnteamedUsers } from "../../../redux/slices/teamSlice.js";
+import { addUserToTeam, fetchUnteamedUsers, fetchTeamMembers } from "../../../redux/slices/teamSlice.js";
 import "./style.css";
 import close from "../../img/png-klev-club-bewz-p-krestik-chernii-png-28.png";
 import Unteamed from "../Elements/Unteamed/Unteamed.jsx";
@@ -13,7 +13,19 @@ const AddMember = React.memo(({ active, setActive }) => {
         if (active && !isDataLoaded) {
             dispatch(fetchUnteamedUsers());
         }
-    }, [active, dispatch, isDataLoaded]); // Зависимости: active, dispatch, isDataLoaded
+    }, [active, dispatch, isDataLoaded]);
+
+    useEffect(() => {
+        if (active) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [active]);
 
     const handleAddUser = async (user) => {
         try {
@@ -25,7 +37,15 @@ const AddMember = React.memo(({ active, setActive }) => {
             }
 
             await dispatch(addUserToTeam({ userId: user.user_id, teamId })).unwrap();
-            dispatch(fetchUnteamedUsers()); // Обновляем список
+            
+            // Обновляем список незарегистрированных пользователей
+            dispatch(fetchUnteamedUsers());
+            
+            // Обновляем список участников команды
+            dispatch(fetchTeamMembers(teamId));
+            
+            // Закрываем модальное окно после успешного добавления
+            setActive(false);
 
         } catch (error) {
             console.error("Ошибка при добавлении пользователя в команду:", error);
@@ -34,22 +54,40 @@ const AddMember = React.memo(({ active, setActive }) => {
     };
 
     return (
-        <div className={active ? "add-form active" : "add-form"} onClick={() => setActive(false)}>
-            <section className="form__window add__window" onClick={(e) => e.stopPropagation()}>
-                {loading && <p>Загрузка...</p>}
-                {!loading && unteamedUsers && unteamedUsers.length > 0 ? (
-                    unteamedUsers.map((user) => (
-                        <Unteamed
-                            key={user.user_id}
-                            userId={user.user_id}
-                            name={user.name}
-                            surname={user.surname}
-                            onAdd={() => handleAddUser(user)} // Передаем функцию добавления
-                        />
-                    ))
-                ) : (
-                    <p>Нет пользователей, которые не состоят в команде.</p>
-                )}
+        <div className={active ? "form active" : "form"} onClick={() => setActive(false)}>
+            <section className="form__window" onClick={(e) => e.stopPropagation()}>
+                <button className="close" onClick={() => setActive(false)}>
+                    <img className="close__img" src={close} alt="Close"/>
+                </button>
+                <h1>Добавить участника</h1>
+                
+                <div className="modal-content">
+                    {loading && (
+                        <div className="loading-state">
+                            <div className="spinner"></div>
+                            <p>Загрузка пользователей...</p>
+                        </div>
+                    )}
+                    
+                    {!loading && unteamedUsers && unteamedUsers.length > 0 ? (
+                        <div className="users-list">
+                            {unteamedUsers.map((user) => (
+                                <Unteamed
+                                    key={user.user_id}
+                                    userId={user.user_id}
+                                    name={user.name}
+                                    surname={user.surname}
+                                    email={user.email}
+                                    onAdd={() => handleAddUser(user)}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="empty-state">
+                            <p>Нет пользователей, которые не состоят в команде.</p>
+                        </div>
+                    )}
+                </div>
             </section>
         </div>
     );

@@ -16,38 +16,89 @@ export default function Tasks() {
     useEffect(() => {
         if (user && user.team_id) {
             dispatch(fetchTeamMembers(user.team_id));
-            dispatch(fetchTasks(user.team_id)); // Загружаем задачи для команды
+            dispatch(fetchTasks(user.team_id));
         }
     }, [user, dispatch]);
 
-    if (loading) return <div>Загрузка...</div>;
-    if (error) return <div>Ошибка: {error}</div>;
+    if (loading) {
+        return (
+            <div className="container">
+                <div className="loading-container">
+                    <div className="spinner"></div>
+                    <p>Загрузка задач...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="container">
+                <div className="error-container">
+                    <h2>Ошибка загрузки</h2>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
-            <div className="tasks">
-                <ul className="task__list">
+            <div className="tasks-container">
+                <div className="tasks-header">
+                    <h1 className="page__title">Задачи команды</h1>
+                    <p className="tasks-subtitle">
+                        {user.role_id === 1 
+                            ? "Управляйте задачами вашей команды" 
+                            : "Ваши назначенные задачи"
+                        }
+                    </p>
+                </div>
+
+                <div className="tasks-content">
                     {tasks && tasks.length > 0 ? (
-                        tasks.map((task) => (
-                            <Task
-                                key={task.task_id}
-                                taskID={task.task_id}
-                                title={task.task_title}
-                                surname={task.surname}
-                                name={task.name}
-                                deadline={task.deadline}
-                                description={task.task_description} // Передаем описание задачи
-                                status={task.task_status} // Передаем статус задачи
-                                role={user.role_id === 1 ? "manager" : "employee"}
-                            />
-                        ))
+                        <div className="tasks-grid">
+                            {tasks.map((task) => (
+                                <Task
+                                    key={task.task_id}
+                                    taskID={task.task_id}
+                                    title={task.task_title}
+                                    surname={task.surname}
+                                    name={task.name}
+                                    deadline={task.deadline}
+                                    description={task.task_description}
+                                    status={task.task_status}
+                                    role={user.role_id === 1 ? "manager" : "employee"}
+                                />
+                            ))}
+                        </div>
                     ) : (
-                        <div>Нет задач для отображения</div>
+                        <div className="empty-tasks">
+                            <div className="empty-icon">📋</div>
+                            <h3>Нет задач</h3>
+                            <p>
+                                {user.role_id === 1 
+                                    ? "Создайте первую задачу для вашей команды" 
+                                    : "Вам пока не назначены задачи"
+                                }
+                            </p>
+                            {user.role_id === 1 && (
+                                <NavLink to="/task-change" className="create-task-btn">
+                                    Создать задачу
+                                </NavLink>
+                            )}
+                        </div>
                     )}
-                </ul>
-                {user.role_id === 1 && <NavLink to="/task-change">
-                    <button className="fixed-btn btn btn-primary">Добавить задачу</button>
-                </NavLink>}
+                </div>
+
+                {user.role_id === 1 && tasks && tasks.length > 0 && (
+                    <div className="add-task-section">
+                        <NavLink to="/task-change" className="btn add-task-btn">
+                            <span className="btn-icon">+</span>
+                            <span className="btn-text">Добавить задачу</span>
+                        </NavLink>
+                    </div>
+                )}
             </div>
         </div>
     );

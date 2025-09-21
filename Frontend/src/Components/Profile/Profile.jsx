@@ -1,6 +1,6 @@
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import logo from '../../img/logo/Group.svg';
 import { clearSelectedUser, fetchUserById } from "../../../redux/slices/userSlice";
@@ -14,9 +14,6 @@ export default function Profile() {
     const currentUser = useSelector((state) => state.user.user);
     const [isSending, setIsSending] = useState(false);
 
-
-    console.log("User ID from URL:", userId); // Логируем userId
-
     useEffect(() => {
         return () => {
             dispatch(clearSelectedUser());
@@ -28,50 +25,67 @@ export default function Profile() {
             dispatch(fetchUserById(userId))
                 .unwrap()
                 .then((user) => {
-                    console.log("User loaded:", user); // Логируем загруженного пользователя
+                    console.log("User loaded:", user);
                 })
                 .catch((error) => {
-                    console.error("Error loading user:", error); // Логируем ошибку
+                    console.error("Error loading user:", error);
                 });
             dispatch(fetchChats(currentUser.user_id));
         }
     }, [dispatch, userId, currentUser.user_id]);
 
     if (loading) {
-        return <div>Загрузка...</div>;
+        return (
+            <div className="container">
+                <div className="profile-container">
+                    <div className="loading-container">
+                        <div className="spinner"></div>
+                        <p>Загрузка профиля...</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (error) {
-        return <div>Ошибка: {error.message || "Неизвестная ошибка"}</div>;
+        return (
+            <div className="container">
+                <div className="profile-container">
+                    <div className="error-container">
+                        <h2>Ошибка загрузки</h2>
+                        <p>{error.message || "Неизвестная ошибка"}</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (!selectedUser) {
-        return <div>Пользователь не найден</div>;
+        return (
+            <div className="container">
+                <div className="profile-container">
+                    <div className="error-container">
+                        <h2>Пользователь не найден</h2>
+                        <p>Профиль пользователя недоступен</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
-
-
-
     const handleSendMessage = async () => {
-        console.log("handleSendMessage called"); // Логируем вызов функции
-
         if (isSending) {
-            console.log("Already sending a message...");
             return;
         }
 
-        setIsSending(true); // Устанавливаем флаг перед отправкой запроса
+        setIsSending(true);
 
         try {
-            // Проверяем, существует ли уже чат между текущим пользователем и выбранным пользователем
             const existingChat = chats.find(chat => chat.user_id === parseInt(userId));
 
             if (existingChat) {
-                // Если чат уже существует, перенаправляем пользователя в этот чат
                 window.location.href = `/im/${existingChat.chat_id}`;
             } else {
-                // Если чата нет, создаем новый чат и отправляем сообщение
-                console.log("Sending request to server..."); // Логируем отправку запроса
                 const response = await fetch("http://localhost:8080/send-message", {
                     method: "POST",
                     headers: {
@@ -88,31 +102,88 @@ export default function Profile() {
                     throw new Error("Ошибка при создании чата");
                 }
 
-
-
                 const data = await response.json();
                 dispatch(fetchChats(currentUser.user_id));
-                console.log("Response from server:", data); // Логируем ответ от сервера
                 window.location.href = `/im/${data.chat_id}`;
             }
         } catch (error) {
             console.error("Ошибка при создании чата:", error);
         } finally {
-            setIsSending(false); // Сбрасываем флаг после завершения
+            setIsSending(false);
         }
     };
 
+    const isOwnProfile = currentUser?.user_id === parseInt(userId);
+
     return (
         <div className="container">
-            <div className="profile">
-                <img className="profile-pic" src={logo} alt="profile" />
-                <div className="profile-text">
-                    <h2 className="profile-surname">{selectedUser.surname}</h2>
-                    <h2 className="profile-name">{selectedUser.name}</h2>
+            <div className="profile-container">
+                <div className="profile-header">
+                    <h1 className="page__title">Профиль пользователя</h1>
                 </div>
-                <button onClick={handleSendMessage}  disabled={isSending} className="btn profile-btn">
-                    Отправить сообщение
-                </button>
+
+                <div className="profile-card">
+                    <div className="profile-avatar">
+                        <img className="profile-pic" src={logo} alt="profile" />
+                    </div>
+                    
+                    <div className="profile-info">
+                        <div className="profile-name-section">
+                            <h2 className="profile-name">{selectedUser.name}</h2>
+                            <h2 className="profile-surname">{selectedUser.surname}</h2>
+                        </div>
+                        
+                        <div className="profile-details">
+                            <div className="detail-item">
+                                <span className="detail-label">Email:</span>
+                                <span className="detail-value">{selectedUser.email}</span>
+                            </div>
+                            
+                            <div className="detail-item">
+                                <span className="detail-label">Роль:</span>
+                                <span className={`detail-value role-${selectedUser.role_id}`}>
+                                    {selectedUser.role_id === 1 ? "Менеджер" : "Сотрудник"}
+                                </span>
+                            </div>
+                            
+                            {selectedUser.team && (
+                                <div className="detail-item">
+                                    <span className="detail-label">Команда:</span>
+                                    <span className="detail-value">{selectedUser.team.team_name}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {!isOwnProfile && (
+                    <div className="profile-actions">
+                        <button 
+                            onClick={handleSendMessage} 
+                            disabled={isSending} 
+                            className="btn message-btn"
+                        >
+                            {isSending ? (
+                                <>
+                                    <div className="btn-spinner"></div>
+                                    <span>Создание чата...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="btn-icon">💬</span>
+                                    <span>Отправить сообщение</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                )}
+
+                {isOwnProfile && (
+                    <div className="own-profile-notice">
+                        <div className="notice-icon">👤</div>
+                        <p>Это ваш профиль</p>
+                    </div>
+                )}
             </div>
         </div>
     );

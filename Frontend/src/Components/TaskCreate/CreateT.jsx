@@ -1,5 +1,5 @@
 import "./style.css";
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createTaskAndFetch } from "../../../redux/slices/taskSlice.js";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ export default function CreateT() {
     const [responsible, setResponsible] = useState("");
     const [deadline, setDeadline] = useState("");
     const [taskDesc, setTaskDesc] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,10 +26,12 @@ export default function CreateT() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         // Валидация
-        if (!taskTitle || !responsible || !deadline || !taskDesc || !teamId) {
-            alert("Пожалуйста, заполните все поля.");
+        if (!taskTitle || !responsible || !deadline || !teamId) {
+            alert("Пожалуйста, заполните все обязательные поля.");
+            setLoading(false);
             return;
         }
 
@@ -45,12 +48,9 @@ export default function CreateT() {
         // Проверка, что user_id и teamID не пустые
         if (isNaN(taskData.teamID) || isNaN(taskData.userID)) {
             alert("Некорректные данные для teamID или userID.");
+            setLoading(false);
             return;
         }
-
-        console.log("Отправляемая дата:", formattedDeadline);
-        console.log("Отправляемые данные:", taskData);
-        console.log("Значения состояний:", { taskTitle, taskDesc, teamId, responsible, deadline });
 
         try {
             await dispatch(createTaskAndFetch(taskData)).unwrap();
@@ -60,69 +60,120 @@ export default function CreateT() {
             setResponsible("");
             setDeadline("");
             setTaskDesc("");
+            
+            // Перенаправление на страницу задач
+            navigate(`/tasks/${teamId}`);
         } catch (error) {
             console.error("Ошибка сервера:", error.response?.data);
             alert("Ошибка при создании задачи: " + (error.response?.data?.message || error.message));
+        } finally {
+            setLoading(false);
         }
-        navigate(`/tasks/${teamId}`)
     };
 
     return (
         <div className="container">
-            <div className="tSettings">
-                <div className="TSettings_btn-title">
-                    <NavLink to={`/tasks/${teamId}`} className="btn back__btn task_btn"></NavLink>
-                    <h1 className="page__title tSettings__title">Task Create</h1>
+            <div className="task-create-container">
+                <div className="task-header">
+                    <NavLink to={`/tasks/${teamId}`} className="back-button">
+                        <div className="back-icon"></div>
+                    </NavLink>
+                    <h1 className="page__title">Создание задачи</h1>
                 </div>
-                <form onSubmit={handleSubmit}>
-                    <h1 className="respTitle">Задача:</h1>
-                    <input
-                        className="form-control"
-                        type="text"
-                        id="taskTitle"
-                        placeholder="Введите название вашей задачи"
-                        value={taskTitle}
-                        onChange={(e) => setTaskTitle(e.target.value)}
-                        required
-                    />
-                    <h1 className="respTitle">Ответственный:</h1>
-                    <select
-                        className="form-control"
-                        name="members"
-                        value={responsible}
-                        onChange={(e) => setResponsible(e.target.value)}
-                        required
-                    >
-                        <option value="">Выберите ответственного</option>
-                        {members.map((member) => (
-                            <option key={member.user_id} value={member.user_id}>
-                                {member.surname} {member.name}
-                            </option>
-                        ))}
-                    </select>
-                    <h1 className="respTitle">Срок выполнения:</h1>
-                    <input
-                        className="form-control"
-                        type="date"
-                        id="deadline"
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
-                        required
-                    />
-                    <h1 className="descTitle">Описание задачи:</h1>
-                    <textarea
-                        className="createDesc"
-                        id="mesText"
-                        placeholder="Введите подробности этой задачи"
-                        value={taskDesc}
-                        onChange={(e) => setTaskDesc(e.target.value)}
-                        required
-                    />
-                    <button type="submit" className="btn tBtn">
-                        Сохранить
-                    </button>
 
-                </form>
+                <div className="task-form-container">
+                    <form onSubmit={handleSubmit} className="task-form">
+                        <div className="form-section">
+                            <h3 className="section-title">Основная информация</h3>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Название задачи <span className="required">*</span>
+                                </label>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    id="taskTitle"
+                                    placeholder="Введите название задачи"
+                                    value={taskTitle}
+                                    onChange={(e) => setTaskTitle(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Ответственный <span className="required">*</span>
+                                </label>
+                                <select
+                                    className="form-control"
+                                    name="members"
+                                    value={responsible}
+                                    onChange={(e) => setResponsible(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Выберите ответственного</option>
+                                    {members.map((member) => (
+                                        <option key={member.user_id} value={member.user_id}>
+                                            {member.surname} {member.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Срок выполнения <span className="required">*</span>
+                                </label>
+                                <input
+                                    className="form-control"
+                                    type="date"
+                                    id="deadline"
+                                    value={deadline}
+                                    onChange={(e) => setDeadline(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-section">
+                            <h3 className="section-title">Дополнительная информация</h3>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Описание задачи</label>
+                                <textarea
+                                    className="form-control textarea"
+                                    id="taskDescription"
+                                    placeholder="Введите подробности задачи (необязательно)"
+                                    value={taskDesc}
+                                    onChange={(e) => setTaskDesc(e.target.value)}
+                                    rows="4"
+                                />
+                                <p className="form-hint">Опишите детали задачи, требования и дополнительные инструкции</p>
+                            </div>
+                        </div>
+
+                        <div className="form-actions">
+                            <button 
+                                type="submit" 
+                                className="btn create-btn"
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    <>
+                                        <div className="btn-spinner"></div>
+                                        Создание...
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="btn-icon">✓</span>
+                                        Создать задачу
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
